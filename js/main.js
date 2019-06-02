@@ -1,195 +1,88 @@
-var shift = 0;
-var alpha = 0;
-var start = 0;
+let UIController = (() => {
+    // ALL DOMData
+    const DOMData = {
+        calculator: document.querySelector('.calculator'),
+        displayTop: document.querySelector('.display_top'), displayBottom: document.querySelector('.display_bottom'),
+        on: document.querySelector('.on'), equal: document.querySelector('.equal'),
+        shift: document.querySelector('.shift'), circleShift: document.querySelector('.circle_shift'),
+        alpha: document.querySelector('.alpha'), circleAlpha: document.querySelector('.circle_alpha'),
+        sqrt: document.querySelector('.sqrt'), xInverse: document.querySelector('.x_inverse'),
+        xSquare: document.querySelector('.x_square'), xCube: document.querySelector('.x_cube'),
+        upArrow: document.querySelector('.up_arrow'),
+        log: document.querySelector('.log'), ln: document.querySelector('.ln'),
+        sin: document.querySelector('.sin'), cos: document.querySelector('.cos'), tan: document.querySelector('.tan'),
+        allClear: document.querySelector('.all_clear'), delete: document.querySelector('.delete'),
+        addition: document.querySelector('.addition'), subtraction: document.querySelector('.subtraction'),
+        multiply: document.querySelector('.multiply'), divide: document.querySelector('.divide'),
+        point: document.querySelector('.point'), exp: document.querySelector('.exp'),
+    };
 
-function calc(input, value) {
-    if (input.value == null || input.value == "0") {
-        input.value = value;
-    } else {
-        input.value += value;
-    }
-}
+    // ALL VALUES OF ORG SHIFT ALPHA IN TEXT CONTENT
+    const dataContent = [
+        ['Shift'], ['Alpha'], ['Mode', 'CLR'], ['On'],
+        ['x<sup>-1</sup>', 'x!'], ['nCr', 'nPr'], ['Pol(', 'Rec(', ':'], ['x<sup>3</sup>', '<sup>3</sup>√'],
+        ['a b/c', 'd/c'], ['√'], ['x<sup>2</sup>'], ['^', '<sup>x</sup>√'], ['log', '10<sup>x</sup>'], ['ln', 'e<sup>x</sup>', 'e'],
+        ['(-)', null, 'A'], ['.,,,', '<-', 'B'], ['hyp', null, 'C'], ['sin', 'sin⁻¹', 'D'], ['cos', 'cos⁻¹', 'E'], ['tan', 'tan⁻¹', 'F'],
+        ['RCL', 'STO'], ['ENG', '<-'], ['('], [')', null, 'X'], [',', ';', 'Y'], ['M+', 'M-', 'M'],
+        ['7'], ['8'], ['9'], ['DEL', 'INS'], ['AC', 'OFF'],
+        ['4'], ['5'], ['6'], ['×'], ['÷'],
+        ['1', 'S-SUM'], ['2', 'S-VAR'], ['3'], ['+'], ['-'],
+        ['0', 'Rnd'], ['.', 'Ran#'], ['EXP', 'π'], ['Ans', 'DRG>'], ['=', '%']
+    ];
 
-function onstart() {
-    if (start == 0) {
-        start = 1;
-        display.value = '';
-        display1.value = '0';
-        document.getElementById('display').style.visibility = 'visible';
-        document.getElementById('display1').style.visibility = 'visible';
-        console.log("on");
-    } else if (start == 3) {
-        start = 1;
-        document.getElementById('display').style.visibility = 'visible';
-        document.getElementById('display1').style.visibility = 'visible';
-        display.value = '';
-        display1.value = '0';
-        console.log("on");
-    } else {
-        if (start == 1) {
-            display.value = '';
-            display1.value = '0';
-        }
-        console.log("ac");
+    return {
+        getDOMData: () => DOMData,
+        getDataContent: dataContent,
     }
-}
+})();
 
-function allclear() {
-    if (shift == 0) {
-        display.value = '';
-        display1.value = '0';
-    }
-    if (shift == 1) {
-        document.getElementById('display').style.visibility = 'hidden';
-        document.getElementById('display1').style.visibility = 'hidden';
-        start = 3;
-    }
-}
+let updateController = (ui => {
+    const updateDOM = ui.getDOMData();
+    console.log(ui.getDataContent);
 
-function del() {
-    var clear = document.getElementById("display").value;
-    document.getElementById("display").value = clear.slice(0, -1);
-}
+    let selectAllButton = document.querySelectorAll('button');
 
-function inv() {
-    if (shift == 0) {
-        display.value += "⁻¹";
-    }
-    if (shift == 1) {
-        display.value += "!";
-    }
-}
+    // FIRE WHEN CLICK ON SHIFT
+    updateDOM.shift.addEventListener('click', () => {
+        for (let i = 0; i <= selectAllButton.length; i++) {
+            selectAllButton.forEach(cur => {
+                let getDataORG = ui.getDataContent[i][0];
+                let getShiftData = ui.getDataContent[i][1];
 
-function cube() {
-    if (shift == 0) {
-        display.value += "³";
-    }
-    if (shift == 1) {
-        display.value += "³√";
-    }
-}
-
-function sqrt() {
-    display.value += "√";
-}
-
-function square() {
-    display.value += "²";
-}
-
-function arrow() {
-    if (shift == 0) {
-        display.value += "^";
-    }
-    if (shift == 1) {
-        display.value += "ˣ√";
-    }
-}
-
-function log() {
-    if (shift == 0) {
-        display.value += "log ";
-    }
-    if (shift == 1) {
-        display.value += "₁₀";
-    }
-}
-
-function ln() {
-    if (shift == 0) {
-        display.value += "ln ";
-    }
-    if (shift == 1) {
-        display.value += "e";
-    }
-    if (alpha == 1) {
-        display.value = "e";
-    }
-}
-
-function sin() {
-    if (shift == 0) {
-        display.value += "sin ";
-    }
-    if (shift == 1) {
-        display.value += "sin⁻¹ ";
-    }
-    if (alpha == 1) {
-        display.value = "D";
-    }
-}
-
-function cos() {
-    if (shift == 0) {
-        display.value += "cos ";
-    }
-    if (shift == 1) {
-        display.value += "cos⁻¹ ";
-    }
-    if (alpha == 1) {
-        display.value = "E";
-    }
-}
-
-function tan() {
-    if (shift == 0) {
-        display.value += "tan ";
-    }
-    if (shift == 1) {
-        display.value += "cos⁻¹ ";
-    }
-    if (alpha == 1) {
-        display.value = "F";
-    }
-}
-
-function lcurve() {
-    display.value += "(";
-}
-
-function rcurve() {
-    display.value += ")";
-}
-
-function exp() {
-    if (shift == 0) {
-        display.value += "E";
-    }
-    if (shift == 1) {
-        display.value += "π";
-    }
-}
-
-function final() {
-    if (shift == 0) {
-        equal();
-    }
-    if (shift == 1) {
-        display.value += "%";
-        var input = display.value;
-        var val1 = "";
-        var val2 = "";
-        var xx = 0;
-        for (var i = 0; i < input.length; i++) {
-            if (input[i] != "*") {
-                if (xx == 0) {
-                    val1 += input[i];
+                if (getShiftData === undefined) {
+                    getShiftData = getDataORG;
                 }
-                if (xx == 1) {
-                    val2 += input[i];
+
+                console.log(getDataORG, getShiftData);
+                // console.log(cur.textContent);
+                // console.log(cur.className);
+                let getDataORGLower = getDataORG.toLowerCase();
+                if (cur.className === getDataORG) {
+                    if (getShiftData.includes('<sup>')) {
+                        document.querySelector('.' + getDataORG).innerHTML = getShiftData;
+                    } else {
+                        document.querySelector('.' + getDataORG).textContent = getShiftData;
+                    }
                 }
-                console.log("false");
-            }
-            if (input[i] == "*") {
-                input = input.replace("%", "");
-                xx = 1;
-                console.log("true");
-            }
+                // console.log(cur, cur.className);
+                // cur.addEventListener('click', current => {
+                //     let classVar = current.target.textContent;
+                //     console.log(classVar);
+                // });
+            });
         }
-        console.log(val1);
-        console.log(val2);
-        var c = (parseFloat(val1) * parseFloat(val2)) / 100;
-        return display1.value = parseFloat(c);
-        console.log("percentage");
-    }
-}
+    });
+
+    selectAllButton.forEach(cur => {
+        // console.log(cur);
+        // console.log(cur, cur.className);
+        cur.addEventListener('click', current => {
+            let classVar = current.target.textContent;
+            console.log(classVar);
+        });
+    });
+})(UIController);
+
+let controller = ((ui, update) => {
+
+})(UIController, updateController);
