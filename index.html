@@ -42,10 +42,10 @@
                     <div class="buttons">
                         <div class="first_line row">
                             <div class="col">
-                                <button class="shift" onclick="changeshift()">Shift</button>
+                                <button class="shift">Shift</button>
                             </div>
                             <div class="col">
-                                <button class="alpha" onclick="changealpha()">Alpha</button>
+                                <button class="alpha">Alpha</button>
                             </div>
                             <div class="col-4">
                                 <div class="circle_shift"></div>
@@ -54,15 +54,15 @@
                                 <button class="mode" disabled>Mode</button>
                             </div>
                             <div class="col">
-                                <button class="on" onclick="onstart()">On</button>
+                                <button class="on">On</button>
                             </div>
                         </div>
                         <div class="second_line row">
                             <div class="col">
-                                <button class="x1" onclick="inv()">x<sup>-1</sup></button>
+                                <button class="x_inverse">x<sup>-1</sup></button>
                             </div>
                             <div class="col">
-                                <button class="ncr" onclick="ncr()" disabled>nCr</button>
+                                <button class="combinations" disabled>nCr</button>
                             </div>
                             <div class="col-4">
                                 <div class="circle_alpha"></div>
@@ -71,7 +71,7 @@
                                 <button class="pol" disabled>pol(</button>
                             </div>
                             <div class="col">
-                                <button class="x3" onclick="cube()">x<sup>3</sup></button>
+                                <button class="x_cube">x<sup>3</sup></button>
                             </div>
                         </div>
                         <div class="third_line row">
@@ -79,24 +79,24 @@
                                 <button class="abc" disabled>a(b/c)</button>
                             </div>
                             <div class="col">
-                                <button class="sqrt" onclick="sqrt()">&#8730;</button>
+                                <button class="sqrt">&#8730;</button>
                             </div>
                             <div class="col">
-                                <button class="x2" onclick="square()">x<sup>2</sup></button>
+                                <button class="x_square">x<sup>2</sup></button>
                             </div>
                             <div class="col">
-                                <button class="arrow" onclick="arrow()">^</button>
+                                <button class="up_arrow">^</button>
                             </div>
                             <div class="col">
-                                <button class="log" onclick="log()">log</button>
+                                <button class="log">log</button>
                             </div>
                             <div class="col">
-                                <button class="ln" onclick="ln()">ln</button>
+                                <button class="ln">ln</button>
                             </div>
                         </div>
                         <div class="fourth_line row">
                             <div class="col">
-                                <button class="minus" disabled>(-)</button>
+                                <button class="bracket_minus" disabled>(-)</button>
                             </div>
                             <div class="col">
                                 <button class="degree" disabled>.,,,</button>
@@ -105,13 +105,13 @@
                                 <button class="hyp" disabled>hyp</button>
                             </div>
                             <div class="col">
-                                <button class="sin" onclick="sin()">sin</button>
+                                <button class="sin">sin</button>
                             </div>
                             <div class="col">
-                                <button class="cos" onclick="cos()">cos</button>
+                                <button class="cos">cos</button>
                             </div>
                             <div class="col">
-                                <button class="tan" onclick="tan()">tan</button>
+                                <button class="tan">tan</button>
                             </div>
                         </div>
                         <div class="fifth_line row">
@@ -122,86 +122,86 @@
                                 <button class="eng" disabled>ENG</button>
                             </div>
                             <div class="col">
-                                <button class="(" onclick="lcurve()" disabled>(</button>
+                                <button class="left_bracket" disabled>(</button>
                             </div>
                             <div class="col">
-                                <button class=")" onclick="rcurve()" disabled>)</button>
+                                <button class="right_bracket" disabled>)</button>
                             </div>
                             <div class="col">
-                                <button class="coma" onclick="calc(display,'')" disabled>,</button>
+                                <button class="coma" disabled>,</button>
                             </div>
                             <div class="col">
-                                <button class="mplus" disabled>M+</button>
+                                <button class="m_plus" disabled>M+</button>
                             </div>
                         </div>
                     </div>
                     <div class="numbers">
                         <div class="sixth_line row">
                             <div class="col">
-                                <button class="7" onclick="calc(display,'7')">7</button>
+                                <button class="seven">7</button>
                             </div>
                             <div class="col">
-                                <button class="8" onclick="calc(display,'8')">8</button>
+                                <button class="eight">8</button>
                             </div>
                             <div class="col">
-                                <button class="9" onclick="calc(display,'9')">9</button>
+                                <button class="nine">9</button>
                             </div>
                             <div class="col">
-                                <button class="del" onclick="del()">DEL</button>
+                                <button class="delete">DEL</button>
                             </div>
                             <div class="col">
-                                <button class="ac" onclick="allclear()">AC</button>
+                                <button class="all_clear">AC</button>
                             </div>
                         </div>
                         <div class="seventh_line row">
                             <div class="col">
-                                <button class="4" onclick="calc(display,'4')">4</button>
+                                <button class="four">4</button>
                             </div>
                             <div class="col">
-                                <button class="5" onclick="calc(display,'5')">5</button>
+                                <button class="five">5</button>
                             </div>
                             <div class="col">
-                                <button class="6" onclick="calc(display,'6')">6</button>
+                                <button class="six">6</button>
                             </div>
                             <div class="col">
-                                <button class="*" onclick="calc(display,'*')">&#215;</button>
+                                <button class="multiply">&#215;</button>
                             </div>
                             <div class="col">
-                                <button class="/" onclick="calc(display,'/')">&#247;</button>
+                                <button class="divide">&#247;</button>
                             </div>
                         </div>
                         <div class="eighth_line row">
                             <div class="col">
-                                <button class="1" onclick="calc(display,'1')">1</button>
+                                <button class="one">1</button>
                             </div>
                             <div class="col">
-                                <button class="2" onclick="calc(display,'2')">2</button>
+                                <button class="two">2</button>
                             </div>
                             <div class="col">
-                                <button class="3" onclick="calc(display,'3')">3</button>
+                                <button class="three">3</button>
                             </div>
                             <div class="col">
-                                <button class="+" onclick="calc(display,'+')">+</button>
+                                <button class="addition">+</button>
                             </div>
                             <div class="col">
-                                <button class="-" onclick="calc(display,'-')">-</button>
+                                <button class="subtraction">-</button>
                             </div>
                         </div>
                         <div class="ninth_line row">
                             <div class="col">
-                                <button class="0" onclick="calc(display,'0')">0</button>
+                                <button class="zero">0</button>
                             </div>
                             <div class="col">
-                                <button class="." onclick="calc(display,'.')">.</button>
+                                <button class="point">.</button>
                             </div>
                             <div class="col">
-                                <button class="exp" onclick="exp()">EXP</button>
+                                <button class="exp">EXP</button>
                             </div>
                             <div class="col">
-                                <button class="ans" disabled>ANS</button>
+                                <button class="answer" disabled>ANS</button>
                             </div>
                             <div class="col">
-                                <button class="=" onclick="final()" onload="error()">=</button>
+                                <button class="equal">=</button>
                             </div>
                         </div>
                     </div>

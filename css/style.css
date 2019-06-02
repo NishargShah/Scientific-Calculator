@@ -144,7 +144,7 @@ body {
   border-style: outset;
 }
 
-.container-fluid .calculator .all_buttons .numbers button.ac, .container-fluid .calculator .all_buttons .numbers button.del {
+.container-fluid .calculator .all_buttons .numbers button.all_clear, .container-fluid .calculator .all_buttons .numbers button.delete {
   background-color: rgba(255, 0, 0, 0.8);
   border-color: rgba(255, 0, 0, 0.8);
 }
