@@ -1,118 +1,224 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Scientific Calculator</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/style.css">
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125814692-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-
-		gtag('config', 'UA-125814692-1');
-	</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Scientific Calculator</title>
+    <link rel="stylesheet" href="assets/css/plugin.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125814692-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-125814692-1');
+    </script>
 </head>
 <body id="bdy">
 <div class="container">
-	<div class="row">
-		<div class="col-md-7">
-			<div class="calc">
-				<div class="clearfix">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="calc">
+                <div class="clearfix">
 					<span class="float-left">
 						<h4>STUDITY</h4>
 					</span>
-					<span class="float-right">
+                    <span class="float-right">
 						<h4><i>fx</i>-82MS</h4>
 					</span>
-				</div>
-				<h5 style="text-align: center;">Designed By Nisharg Shah</h5><br>
-				<form id="form">
-					<input type="text" id="display" value="">
-					<input type="text" id="display1" value="0">
-				</form><br><br>
-				
-				<div class="row buttons">
-					<div class="col"><button id="shift" onclick="changeshift()">Shift</button></div>
-					<div class="col"><button id="alpha" onclick="changealpha()">Alpha</button></div>
-					<div class="col-4"><div id="circle"></div><p id="text">Shift Is On</p></div>
-					<div class="col"><button value="mode" id="mode" disabled>Mode</button></div>
-					<div class="col"><button id="on" onclick="onstart()">On</button></div>
-				</div><br>
-				<div class="row buttons">
-					<div class="col"><button value="x1" id="x1" onclick="inv()">x<sup>-1</sup></button></div>
-					<div class="col"><button value="ncr" id="ncr" onclick="ncr()" disabled>nCr</button></div>
-					<div class="col-4"><div id="circle1"></div><p id="text1">Alpha Is On</p></div>
-					<div class="col"><button value="pol" id="pol" disabled>pol(</button></div>
-					<div class="col"><button value="x3" id="x3" onclick="cube()">x<sup>3</sup></button></div>
-				</div><br>
-				<div class="row buttons">
-					<div class="col"><button value="abc" id="abc" disabled>a(b/c)</button></div>
-					<div class="col"><button value="sqrt" id="sqrt" onclick="sqrt()">&#8730;</button></div>
-					<div class="col"><button value="x2" id="x2" onclick="square()">x<sup>2</sup></button></div>
-					<div class="col"><button value="arrow" id="arrow" onclick="arrow()">^</button></div>
-					<div class="col"><button value="log" id="log" onclick="log()">log</button></div>
-					<div class="col"><button value="ln" id="ln" onclick="ln()">ln</button></div>
-				</div><br>
-				<div class="row buttons">
-					<div class="col"><button value="minus" id="minus" disabled>(-)</button></div>
-					<div class="col"><button value="degree" id="degree" disabled>.,,,</button></div>
-					<div class="col"><button value="hyp" id="hyp" disabled>hyp</button></div>
-					<div class="col"><button value="sin" id="sin" onclick="sin()">sin</button></div>
-					<div class="col"><button value="cos" id="cos" onclick="cos()">cos</button></div>
-					<div class="col"><button value="tan" id="tan" onclick="tan()">tan</button></div>
-				</div><br>
-				<div class="row buttons">
-					<div class="col"><button value="rcl" id="rcl" disabled>RCL</button></div>
-					<div class="col"><button value="eng" id="eng" disabled>ENG</button></div>
-					<div class="col"><button value="(" id="(" onclick="lcurve()" disabled>(</button></div>
-					<div class="col"><button value=")" id=")" onclick="rcurve()" disabled>)</button></div>
-					<div class="col"><button value="coma" id="coma" onclick="calc(display,'')" disabled>,</button></div>
-					<div class="col"><button value="mplus" id="mplus" disabled>M+</button></div>
-				</div><br>
-				<div class="row number">
-					<div class="col"><button value="7" id="7" onclick="calc(display,'7')">7</button></div>
-					<div class="col"><button value="8" id="8"  onclick="calc(display,'8')">8</button></div>
-					<div class="col"><button value="9" id="9" onclick="calc(display,'9')">9</button></div>
-					<div class="col"><button value="del" id="del" onclick="del()">DEL</button></div>
-					<div class="col"><button value="ac" id="ac" onclick="allclear()">AC</button></div>
-				</div><br>
-				<div class="row number">
-					<div class="col"><button value="4" id="4" onclick="calc(display,'4')">4</button></div>
-					<div class="col"><button value="5" id="5" onclick="calc(display,'5')">5</button></div>
-					<div class="col"><button value="6" id="6" onclick="calc(display,'6')">6</button></div>
-					<div class="col"><button value="*" id="*" onclick="calc(display,'*')">&#215;</button></div>
-					<div class="col"><button value="/" id="/" onclick="calc(display,'/')">&#247;</button></div>
-				</div><br>
-				<div class="row number">
-					<div class="col"><button value="1" id="1" onclick="calc(display,'1')">1</button></div>
-					<div class="col"><button value="2" id="2" onclick="calc(display,'2')">2</button></div>
-					<div class="col"><button value="3" id="3" onclick="calc(display,'3')">3</button></div>
-					<div class="col"><button value="+" id="+" onclick="calc(display,'+')">+</button></div>
-					<div class="col"><button value="-" id="-" onclick="calc(display,'-')">-</button></div>
-				</div><br>
-				<div class="row number">
-					<div class="col"><button value="0" id="0" onclick="calc(display,'0')">0</button></div>
-					<div class="col"><button value="." id="." onclick="calc(display,'.')">.</button></div>
-					<div class="col"><button value="exp" id="exp" onclick="exp()">EXP</button></div>
-					<div class="col"><button value="ans" id="ans" disabled>ANS</button></div>
-					<div class="col"><button value="=" id="=" onclick="final()" onload="error()">=</button></div>
-				</div><br>
-			</div>
-		</div>
-		<div class="col-md-5"><br>	
-		<h2></h2>	
-		</div>
-	</div>
+                </div>
+                <h5 style="text-align: center;">Designed By Nisharg Shah</h5><br>
+                <form id="form">
+                    <input type="text" id="display" value="">
+                    <input type="text" id="display1" value="0">
+                </form>
+                <br><br>
+
+                <div class="row buttons">
+                    <div class="col">
+                        <button id="shift" onclick="changeshift()">Shift</button>
+                    </div>
+                    <div class="col">
+                        <button id="alpha" onclick="changealpha()">Alpha</button>
+                    </div>
+                    <div class="col-4">
+                        <div id="circle"></div>
+                        <p id="text">Shift Is On</p></div>
+                    <div class="col">
+                        <button value="mode" id="mode" disabled>Mode</button>
+                    </div>
+                    <div class="col">
+                        <button id="on" onclick="onstart()">On</button>
+                    </div>
+                </div>
+                <br>
+                <div class="row buttons">
+                    <div class="col">
+                        <button value="x1" id="x1" onclick="inv()">x<sup>-1</sup></button>
+                    </div>
+                    <div class="col">
+                        <button value="ncr" id="ncr" onclick="ncr()" disabled>nCr</button>
+                    </div>
+                    <div class="col-4">
+                        <div id="circle1"></div>
+                        <p id="text1">Alpha Is On</p></div>
+                    <div class="col">
+                        <button value="pol" id="pol" disabled>pol(</button>
+                    </div>
+                    <div class="col">
+                        <button value="x3" id="x3" onclick="cube()">x<sup>3</sup></button>
+                    </div>
+                </div>
+                <br>
+                <div class="row buttons">
+                    <div class="col">
+                        <button value="abc" id="abc" disabled>a(b/c)</button>
+                    </div>
+                    <div class="col">
+                        <button value="sqrt" id="sqrt" onclick="sqrt()">&#8730;</button>
+                    </div>
+                    <div class="col">
+                        <button value="x2" id="x2" onclick="square()">x<sup>2</sup></button>
+                    </div>
+                    <div class="col">
+                        <button value="arrow" id="arrow" onclick="arrow()">^</button>
+                    </div>
+                    <div class="col">
+                        <button value="log" id="log" onclick="log()">log</button>
+                    </div>
+                    <div class="col">
+                        <button value="ln" id="ln" onclick="ln()">ln</button>
+                    </div>
+                </div>
+                <br>
+                <div class="row buttons">
+                    <div class="col">
+                        <button value="minus" id="minus" disabled>(-)</button>
+                    </div>
+                    <div class="col">
+                        <button value="degree" id="degree" disabled>.,,,</button>
+                    </div>
+                    <div class="col">
+                        <button value="hyp" id="hyp" disabled>hyp</button>
+                    </div>
+                    <div class="col">
+                        <button value="sin" id="sin" onclick="sin()">sin</button>
+                    </div>
+                    <div class="col">
+                        <button value="cos" id="cos" onclick="cos()">cos</button>
+                    </div>
+                    <div class="col">
+                        <button value="tan" id="tan" onclick="tan()">tan</button>
+                    </div>
+                </div>
+                <br>
+                <div class="row buttons">
+                    <div class="col">
+                        <button value="rcl" id="rcl" disabled>RCL</button>
+                    </div>
+                    <div class="col">
+                        <button value="eng" id="eng" disabled>ENG</button>
+                    </div>
+                    <div class="col">
+                        <button value="(" id="(" onclick="lcurve()" disabled>(</button>
+                    </div>
+                    <div class="col">
+                        <button value=")" id=")" onclick="rcurve()" disabled>)</button>
+                    </div>
+                    <div class="col">
+                        <button value="coma" id="coma" onclick="calc(display,'')" disabled>,</button>
+                    </div>
+                    <div class="col">
+                        <button value="mplus" id="mplus" disabled>M+</button>
+                    </div>
+                </div>
+                <br>
+                <div class="row number">
+                    <div class="col">
+                        <button value="7" id="7" onclick="calc(display,'7')">7</button>
+                    </div>
+                    <div class="col">
+                        <button value="8" id="8" onclick="calc(display,'8')">8</button>
+                    </div>
+                    <div class="col">
+                        <button value="9" id="9" onclick="calc(display,'9')">9</button>
+                    </div>
+                    <div class="col">
+                        <button value="del" id="del" onclick="del()">DEL</button>
+                    </div>
+                    <div class="col">
+                        <button value="ac" id="ac" onclick="allclear()">AC</button>
+                    </div>
+                </div>
+                <br>
+                <div class="row number">
+                    <div class="col">
+                        <button value="4" id="4" onclick="calc(display,'4')">4</button>
+                    </div>
+                    <div class="col">
+                        <button value="5" id="5" onclick="calc(display,'5')">5</button>
+                    </div>
+                    <div class="col">
+                        <button value="6" id="6" onclick="calc(display,'6')">6</button>
+                    </div>
+                    <div class="col">
+                        <button value="*" id="*" onclick="calc(display,'*')">&#215;</button>
+                    </div>
+                    <div class="col">
+                        <button value="/" id="/" onclick="calc(display,'/')">&#247;</button>
+                    </div>
+                </div>
+                <br>
+                <div class="row number">
+                    <div class="col">
+                        <button value="1" id="1" onclick="calc(display,'1')">1</button>
+                    </div>
+                    <div class="col">
+                        <button value="2" id="2" onclick="calc(display,'2')">2</button>
+                    </div>
+                    <div class="col">
+                        <button value="3" id="3" onclick="calc(display,'3')">3</button>
+                    </div>
+                    <div class="col">
+                        <button value="+" id="+" onclick="calc(display,'+')">+</button>
+                    </div>
+                    <div class="col">
+                        <button value="-" id="-" onclick="calc(display,'-')">-</button>
+                    </div>
+                </div>
+                <br>
+                <div class="row number">
+                    <div class="col">
+                        <button value="0" id="0" onclick="calc(display,'0')">0</button>
+                    </div>
+                    <div class="col">
+                        <button value="." id="." onclick="calc(display,'.')">.</button>
+                    </div>
+                    <div class="col">
+                        <button value="exp" id="exp" onclick="exp()">EXP</button>
+                    </div>
+                    <div class="col">
+                        <button value="ans" id="ans" disabled>ANS</button>
+                    </div>
+                    <div class="col">
+                        <button value="=" id="=" onclick="final()" onload="error()">=</button>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+        <div class="col-md-5"><br>
+            <h2></h2>
+        </div>
+    </div>
 </div>
 <!-- script start -->
 
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="assets/js/plugin.js"></script>
 <script src="js/main.js"></script>
 <script src="js/shift.js"></script>
 <script src="js/alpha.js"></script>
