@@ -1,77 +1,104 @@
-body{
-	overflow: hidden;
+@import url("https://fonts.googleapis.com/css?family=Lato:700,900&display=swap");
+*, *::after, *::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
 }
-.calc{
-	border: 7px solid black;
-	border-radius: 8px;
-	box-shadow: 0px 0px 0px 10px #666;
-	color: darkgray;
-	background-color: #26405b;
-	width: 90%;
-	padding: 10px;
-	top: 25px;
-	position: relative;
-	transform: scale(.8);
-    transform-origin: 0 0;
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
-button{
-	color: black;
-	font-weight: bold;
-	text-align: center;
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  line-height: 1.6;
 }
-button:active{
-	background-color: skyblue;
+
+.container-fluid {
+  padding-top: 2rem;
 }
-input:focus{
-	outline: none;
-	border: none;
-}
-button:disabled{
-	color: gray;
-}
-form{
-	box-shadow: 0px 0px 0px 11px rgba(0,0,0,0.75);
-	font-weight: bold;
-	font-size: 24px;
-}
-#display{
-	width: 100%;
-	height: 40px;
-	border-bottom: none;
-	visibility: hidden;
-}
-#display1{
-	width: 100%;
-	height: 40px;
-	border-top: none;
-	text-align: right;
-	visibility: hidden;
-}
-.row{
-	text-align: center;
-}
-#replay{
-	border-radius: 50%;
-	padding: 30px;
-}
-.number > .col > button{
-	width: 80px;
-	border-radius: 8px 8px 12px 12px;
-}
-.buttons > .col > button{
-	width: 60px;
-	border-radius: 8px;
-}
-#ac,#del{
-	background-color: red;
-	border-color: red;	
-}
-.sup {
+
+.container-fluid .calc {
+  border: 5px solid black;
+  border-radius: 8px;
+  box-shadow: 0 0 0 5px #666;
+  background-color: #26405b;
   position: relative;
-  bottom: 1ex; 
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.container-fluid .calc .header {
+  padding: .5rem 1rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.container-fluid .calc .header_form {
+  padding: .5rem 1rem 2rem 1rem;
+}
+
+.container-fluid .calc .header_form input:focus {
+  outline: none;
+  border: none;
+}
+
+.container-fluid .calc .header_form .display_form {
+  box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.75);
+  font-weight: bold;
+  font-size: 24px;
+  border-radius: 8px;
+}
+
+.container-fluid .calc .header_form .display_top {
+  width: 100%;
+  height: 40px;
+  border: none;
+  outline: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  visibility: hidden;
+}
+
+.container-fluid .calc .header_form .display_bottom {
+  width: 100%;
+  height: 40px;
+  border: none;
+  outline: none;
+  text-align: right;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  visibility: hidden;
+}
+
+.container-fluid .calc .all_buttons {
+  text-align: center;
+  padding: 0 .5rem;
+}
+
+.container-fluid .calc .all_buttons .numbers button {
+  width: 80px;
+  border-radius: 8px 8px 12px 12px;
+}
+
+.container-fluid .calc .all_buttons .buttons button {
+  width: 60px;
+  border-radius: 8px;
+}
+
+.container-fluid .calc .all_buttons .ac, .container-fluid .calc .all_buttons .del {
+  background-color: red;
+  border-color: red;
+}
+
+.container-fluid .calc .all_buttons .sup {
+  position: relative;
+  bottom: 1ex;
   font-size: 80%;
 }
-#circle,#circle1{
+
+.container-fluid .calc .all_buttons .circle, .container-fluid .calc .all_buttons .circle1 {
   border-radius: 50%;
   border: 1px solid black;
   height: 10px;
@@ -79,19 +106,15 @@ form{
   display: inline-block;
   margin-right: 10px;
 }
-#text,#text1{
-	display: inline-block;
-	margin-right: -5px;
-	font-weight: bold;
+
+.container-fluid .calc .all_buttons .text, .container-fluid .calc .all_buttons .text1 {
+  display: inline-block;
+  margin-right: -5px;
+  font-weight: bold;
 }
-h4,h5{
-	font-weight: bold;
+
+.container-fluid .calc .all_buttons h4, .container-fluid .calc .all_buttons h5 {
+  font-weight: bold;
 }
-@media only screen and (max-width: 768px) {
-    .calc{
-		width: 170%;
-		top: 55px;
-		right: -10px;
-		transform: scale(.55);
-	}
-}
+
+/*# sourceMappingURL=style.css.map */

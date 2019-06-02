@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:700,900&display=swap');
+
+@import "../assets/scss/functions";
+@import "../assets/scss/variables";
+@import "../assets/scss/mixins";
+
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+::selection {
+
+}
