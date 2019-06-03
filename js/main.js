@@ -42,7 +42,7 @@ let updateController = (ui => {
     const updateDOM = ui.getDOMData();
     let selectAllButton = document.querySelectorAll('button');
 
-    let shiftSwapMethod = () => {
+    let swapOfShiftAndAlpha = (value) => {
         // FOR LOOP FOR ALL BUTTONS
         for (let i = 0; i <= selectAllButton.length - 1; i++) {
             // FOREACH FOR GET LIST OF IT
@@ -51,73 +51,56 @@ let updateController = (ui => {
                 let getDataClassName = ui.getDataContent[i][0];
                 let getDataORG = ui.getDataContent[i][1];
                 let getShiftData = ui.getDataContent[i][2];
-
-                // IF DATA IS UNDEFINED OR NULL, SECOND VALUE = FIRST VALUE
-                if (getShiftData === undefined || getShiftData === null) {
-                    getShiftData = getDataORG;
-                }
-
-                // CHECK FOR shiftCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
-                if (cur.className === getDataClassName && updateDOM.shiftCount === 0) {
-                    document.querySelector('.' + getDataClassName).innerHTML = getShiftData;
-                } else if (cur.className === getDataClassName && updateDOM.shiftCount === 1) {
-                    document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
-                }
-            });
-        }
-
-        // IF ELSE CONDITION FOR CHANGE 0 AND 1
-        updateDOM.shiftCount === 0 ? updateDOM.shiftCount = 1 : updateDOM.shiftCount = 0;
-    };
-
-    let alphaSwapMethod = () => {
-        // FOR LOOP FOR ALL BUTTONS
-        for (let i = 0; i <= selectAllButton.length - 1; i++) {
-            // FOREACH FOR GET LIST OF IT
-            selectAllButton.forEach(cur => {
-                // FETCH DATA FROM UIController
-                let getDataClassName = ui.getDataContent[i][0];
-                let getDataORG = ui.getDataContent[i][1];
                 let getAlphaData = ui.getDataContent[i][3];
 
-                // IF DATA IS UNDEFINED OR NULL, SECOND VALUE = FIRST VALUE
-                if (getAlphaData === undefined || getAlphaData === null) {
-                    getAlphaData = getDataORG;
-                }
+                if (value === 'shift') {
+                    // IF DATA IS UNDEFINED OR NULL, SECOND VALUE = FIRST VALUE
+                    if (getShiftData === undefined || getShiftData === null) getShiftData = getDataORG;
 
-                // CHECK FOR shiftCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
-                if (cur.className === getDataClassName && updateDOM.alphaCount === 0) {
-                    document.querySelector('.' + getDataClassName).innerHTML = getAlphaData;
-                } else if (cur.className === getDataClassName && updateDOM.alphaCount === 1) {
-                    document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
+                    // CHECK FOR shiftCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
+                    if (cur.className === getDataClassName && updateDOM.shiftCount === 0) {
+                        document.querySelector('.' + getDataClassName).innerHTML = getShiftData;
+                    } else if (cur.className === getDataClassName && updateDOM.shiftCount === 1) {
+                        document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
+                    }
+                } else {
+                    if (getAlphaData === undefined || getAlphaData === null) getAlphaData = getDataORG;
+
+                    if (cur.className === getDataClassName && updateDOM.alphaCount === 0) {
+                        document.querySelector('.' + getDataClassName).innerHTML = getAlphaData;
+                    } else if (cur.className === getDataClassName && updateDOM.alphaCount === 1) {
+                        document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
+                    }
                 }
             });
         }
 
         // IF ELSE CONDITION FOR CHANGE 0 AND 1
-        updateDOM.alphaCount === 0 ? updateDOM.alphaCount = 1 : updateDOM.alphaCount = 0;
+        if (value === 'shift') {
+            updateDOM.shiftCount === 0 ? updateDOM.shiftCount = 1 : updateDOM.shiftCount = 0;
+        } else {
+            updateDOM.alphaCount === 0 ? updateDOM.alphaCount = 1 : updateDOM.alphaCount = 0;
+        }
     };
 
-    // FIRE WHEN CLICK ON SHIFT
-    let swiftClick = () => {
+    // FIRE WHEN CLICK ON SHIFT OR ALPHA
+    let clickOfShiftAndAlpha = () => {
+        // FIRE WHEN CLICK ON SHIFT
         updateDOM.shift.addEventListener('click', () => {
-            shiftSwapMethod();
+            swapOfShiftAndAlpha('shift');
             console.log('shift', updateDOM.shiftCount);
         });
-    };
 
-    // FIRE WHEN CLICK ON ALPHA
-    let alphaClick = () => {
+        // FIRE WHEN CLICK ON ALPHA
         updateDOM.alpha.addEventListener('click', () => {
-            alphaSwapMethod();
+            swapOfShiftAndAlpha('alpha');
             console.log('alpha', updateDOM.alphaCount);
         });
     };
 
     // RETURN OF updateController
     return {
-        getSwiftClick: () => swiftClick(),
-        getAlphaClick: () => alphaClick()
+        getClick: () => clickOfShiftAndAlpha()
     }
 
 })(UIController);
@@ -127,8 +110,7 @@ let controller = ((ui, update) => {
     // RETURN OF controller
     return {
         init: () => {
-            update.getSwiftClick();
-            update.getAlphaClick();
+            update.getClick();
         }
     }
 })(UIController, updateController);
