@@ -22,26 +22,26 @@ let UIController = (() => {
         [null, null, null, 'alpha', 'Alpha'],
         [null, null, null, 'mode', 'Mode', 'CLR'],
         [null, null, null, 'on', 'On'],
-        ['⁻¹', '!', '⁻¹', 'x_inverse', 'x<sup>-1</sup>', 'x!'],
+        ['⁻¹', '!', null, 'x_inverse', 'x<sup>-1</sup>', 'x!'],
         [null, null, null, 'combinations', 'nCr', 'nPr'],
         [null, null, null, 'pol', 'Pol(', 'Rec(', ':'],
-        ['³', '³√', '³', 'x_cube', 'x<sup>3</sup>', '<sup>3</sup>√'],
+        ['³', '³√', null, 'x_cube', 'x<sup>3</sup>', '<sup>3</sup>√'],
         [null, null, null, 'abc', 'a b/c', 'd/c'],
-        ['√', '√', '√', 'sqrt', '√'],
-        ['²', '²', '²', 'x_square', 'x<sup>2</sup>'],
-        ['^', 'ˣ√', '^', 'up_arrow', '^', '<sup>x</sup>√'],
-        ['log ', '₁₀', 'log ', 'log', 'log', '10<sup>x</sup>'],
+        ['√', null, null, 'sqrt', '√'],
+        ['²', null, null, 'x_square', 'x<sup>2</sup>'],
+        ['^', 'ˣ√', null, 'up_arrow', '^', '<sup>x</sup>√'],
+        ['log ', '₁₀', null, 'log', 'log', '10<sup>x</sup>'],
         ['ln ', 'ₑ', 'e', 'ln', 'ln', 'e<sup>x</sup>', 'e'],
-        [null, null, 'A', 'bracket_minus', '(-)', null, 'A'],
-        [null, null, 'B', 'degree', '. , , ,', '<-', 'B'],
-        [null, null, 'C', 'hyp', 'hyp', null, 'C'],
-        ['sin ', 'sin⁻¹', 'D', 'sin', 'sin', 'sin<sup>-1</sup>', 'D'],
-        ['cos ', 'cos⁻¹', 'E', 'cos', 'cos', 'cos<sup>-1</sup>', 'E'],
-        ['tan ', 'tan⁻¹', 'F', 'tan', 'tan', 'tan<sup>-1</sup>', 'F'],
+        [null, null, null, 'bracket_minus', '(-)', null, 'A'],
+        [null, null, null, 'degree', '. , , ,', '<-', 'B'],
+        [null, null, null, 'hyp', 'hyp', null, 'C'],
+        ['sin ', 'sin⁻¹', null, 'sin', 'sin', 'sin<sup>-1</sup>', 'D'],
+        ['cos ', 'cos⁻¹', null, 'cos', 'cos', 'cos<sup>-1</sup>', 'E'],
+        ['tan ', 'tan⁻¹', null, 'tan', 'tan', 'tan<sup>-1</sup>', 'F'],
         [null, null, null, 'rcl', 'RCL', 'STO'],
         [null, null, null, 'eng', 'ENG', '<-'],
-        ['( ', '( ', '( ', 'left_bracket', '('],
-        [' )', ' )', 'X', 'right_bracket', ')', null, 'X'],
+        ['( ', null, null, 'left_bracket', '('],
+        [' )', null, null, 'right_bracket', ')', null, 'X'],
         [null, null, null, 'coma', ',', ';', 'Y'],
         [null, null, null, 'm_plus', 'M+', 'M-', 'M'],
         ['7', null, null, 'seven', '7'],
@@ -172,17 +172,26 @@ let updateController = (ui => {
             let getDataClassName = ui.getDataContent[i][3];
             let classVar = current.target.className;
 
-            if (classVar === getDataClassName && getDisplayORG !== null && (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 0)) {
-                updateDOM.displayTop.value += getDisplayORG;
-                console.log('press if');
-            }
-            if (classVar === getDataClassName && getDisplayOfShift !== null && updateDOM.shiftCount === 1) {
-                console.log('press shift');
-                updateDOM.displayTop.value += getDisplayOfShift;
-            }
-            if (classVar === getDataClassName && getDisplayOfAlpha !== null && updateDOM.alphaCount === 1) {
-                console.log('press alpha');
-                updateDOM.displayTop.value += getDisplayOfAlpha;
+            if (classVar === getDataClassName) {
+                if (getDisplayORG !== null && (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 0)) {
+                    updateDOM.displayTop.value += getDisplayORG;
+                    console.log('press if');
+                }
+                if (getDisplayOfShift !== null && updateDOM.shiftCount === 1) {
+                    console.log('press shift');
+                    updateDOM.displayTop.value += getDisplayOfShift;
+                }
+                if (getDisplayOfAlpha !== null && updateDOM.alphaCount === 1) {
+                    console.log('press alpha');
+                    updateDOM.displayTop.value += getDisplayOfAlpha;
+                }
+
+                // THIS CONDITION IS POSSIBLE IN MY CODE BUT IN REAL LIFE ITS NOT
+                if ((getDisplayOfShift !== null || getDisplayOfAlpha !== null) && (updateDOM.shiftCount === 1 && updateDOM.alphaCount === 1)) {
+                    console.log('press both');
+                    // console.log(getDisplayOfAlpha);
+                    // console.log(getDisplayOfShift);
+                }
             }
         }
     };
