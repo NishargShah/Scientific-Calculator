@@ -77,6 +77,7 @@ let updateController = (ui => {
     const updateDOM = ui.getDOMData();
     let selectAllButton = document.querySelectorAll('button');
 
+    // CHANGING CONTENT OF CALC WHEN PRESS IN SHIFT
     let changeToShift = (cur, getDataORG, getDataClassName, getShiftData) => {
         // IF DATA IS UNDEFINED OR NULL, SECOND VALUE = FIRST VALUE
         if (getShiftData === undefined || getShiftData === null) getShiftData = getDataORG;
@@ -91,11 +92,11 @@ let updateController = (ui => {
                 document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
                 updateDOM.circleShift.style.backgroundColor = 'transparent';
                 updateDOM.circleAlpha.style.backgroundColor = 'transparent';
-                console.log('shift');
             }
         }
     };
 
+    // CHANGING CONTENT OF CALC WHEN PRESS IN ALPHA
     let changeToAlpha = (cur, getDataORG, getDataClassName, getAlphaData) => {
         // IF DATA IS UNDEFINED OR NULL, SECOND VALUE = FIRST VALUE
         if (getAlphaData === undefined || getAlphaData === null) getAlphaData = getDataORG;
@@ -110,39 +111,41 @@ let updateController = (ui => {
                 document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
                 updateDOM.circleAlpha.style.backgroundColor = 'transparent';
                 updateDOM.circleShift.style.backgroundColor = 'transparent';
-                console.log('shift');
             }
         }
     };
 
+    // CHANGING VALUE OF shiftCount WHEN PRESS IN SHIFT
     let changeValueOfShift = () => {
         if (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 0) {
             updateDOM.shiftCount = 1;
-            console.log('shift 00');
+            // console.log('shift 00');
         } else if (updateDOM.shiftCount === 1 && updateDOM.alphaCount === 0) {
             updateDOM.shiftCount = 0;
-            console.log('shift 10');
+            // console.log('shift 10');
         } else if (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 1) {
             updateDOM.shiftCount = 1;
             updateDOM.alphaCount = 0;
-            console.log('shift 01');
+            // console.log('shift 01');
         }
     };
 
+    // CHANGING VALUE OF alphaCount WHEN PRESS IN ALPHA
     let changeValueOfAlpha = () => {
         if (updateDOM.alphaCount === 0 && updateDOM.shiftCount === 0) {
             updateDOM.alphaCount = 1;
-            console.log('alpha 00');
+            // console.log('alpha 00');
         } else if (updateDOM.alphaCount === 1 && updateDOM.shiftCount === 0) {
             updateDOM.alphaCount = 0;
-            console.log('alpha 10');
+            // console.log('alpha 10');
         } else if (updateDOM.alphaCount === 0 && updateDOM.shiftCount === 1) {
             updateDOM.alphaCount = 1;
             updateDOM.shiftCount = 0;
-            console.log('alpha 01');
+            // console.log('alpha 01');
         }
     };
 
+    // MAIN FUNCTION OF SHIFT AND ALPHA LOGIC
     let swapOfShiftAndAlpha = (value) => {
         // FOR LOOP FOR ALL BUTTONS
         for (let i = 0; i <= selectAllButton.length - 1; i++) {
@@ -188,16 +191,18 @@ let updateController = (ui => {
         updateDOM.displayTop.value = updateDOM.displayTop.value.slice(0, -1);
     };
 
-    // SWAP WHEN CLICK ON ANY BUTTON EXCEPT SHIFT AND ALPHA
+    // SWAP CONTENT WHEN CLICK ON ANY BUTTON EXCEPT SHIFT AND ALPHA
     let swapWhenClickOnButton = (current) => {
         if (current.target.className !== 'shift' && current.target.className !== 'alpha') {
-            updateDOM.shiftCount = 1;
-            updateDOM.alphaCount = 1;
-            swapOfShiftAndAlpha('shift');
-            swapOfShiftAndAlpha('alpha');
+            if (updateDOM.shiftCount === 1) {
+                swapOfShiftAndAlpha('shift');
+            } else if (updateDOM.alphaCount === 1) {
+                swapOfShiftAndAlpha('alpha');
+            }
         }
     };
 
+    // GET VALUE OF BUTTON AND DISPLAY IN INPUT
     let getValueOfButton = (current) => {
         for (let i = 0; i <= selectAllButton.length - 1; i++) {
             let getDisplayORG = ui.getDataContent[i][0];
@@ -209,39 +214,32 @@ let updateController = (ui => {
             if (classVar === getDataClassName) {
                 if (getDisplayORG !== null && (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 0)) {
                     updateDOM.displayTop.value += getDisplayORG;
-                    console.log('press if');
+                    // console.log('press if');
                 }
                 if (getDisplayOfShift !== null && updateDOM.shiftCount === 1) {
-                    console.log('press shift');
                     updateDOM.displayTop.value += getDisplayOfShift;
+                    // console.log('press shift');
                 }
                 if (getDisplayOfAlpha !== null && updateDOM.alphaCount === 1) {
-                    console.log('press alpha');
                     updateDOM.displayTop.value += getDisplayOfAlpha;
-                }
-
-                // THIS CONDITION IS POSSIBLE IN MY CODE BUT IN REAL LIFE ITS NOT
-                if ((getDisplayOfShift !== null || getDisplayOfAlpha !== null) && (updateDOM.shiftCount === 1 && updateDOM.alphaCount === 1)) {
-                    console.log('press both');
-                    // console.log(getDisplayOfAlpha);
-                    // console.log(getDisplayOfShift);
+                    // console.log('press alpha');
                 }
             }
         }
     };
 
-    // FIRE WHEN CLICK ON BUTTON LIKE SHIFT ALPHA
+    // FIRE WHEN CLICK ON BUTTON
     let clickOnButton = () => {
         // FIRE WHEN CLICK ON SHIFT
         updateDOM.shift.addEventListener('click', () => {
             swapOfShiftAndAlpha('shift');
-            console.log('shift', updateDOM.shiftCount);
+            console.log('shift', updateDOM.shiftCount, 'alpha', updateDOM.alphaCount);
         });
 
         // FIRE WHEN CLICK ON ALPHA
         updateDOM.alpha.addEventListener('click', () => {
             swapOfShiftAndAlpha('alpha');
-            console.log('alpha', updateDOM.alphaCount);
+            console.log('shift', updateDOM.shiftCount, 'alpha', updateDOM.alphaCount);
         });
 
         // FIRED WHEN YOU CLICK ON "ON"
@@ -259,12 +257,12 @@ let updateController = (ui => {
             clickOnDelete();
         });
 
-        // FETCH ALL DATA FROM BUTTONS
+        // FETCH ALL DATA FROM BUTTONS AND MAIN FUNCTION OF SWAP VALUE
         selectAllButton.forEach(cur => {
             // CLICK ON BUTTON
             cur.addEventListener('click', current => {
                 getValueOfButton(current);
-                // swapWhenClickOnButton(current);
+                swapWhenClickOnButton(current);
             });
         });
     };
