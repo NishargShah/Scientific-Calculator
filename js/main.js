@@ -14,22 +14,24 @@ let UIController = (() => {
         allClear: document.querySelector('.all_clear'), delete: document.querySelector('.delete'),
         addition: document.querySelector('.addition'), subtraction: document.querySelector('.subtraction'),
         multiply: document.querySelector('.multiply'), divide: document.querySelector('.divide'),
-        point: document.querySelector('.point'), exp: document.querySelector('.exp'),
+        point: document.querySelector('.point'), exp: document.querySelector('.exp'), shiftCount: 0,
     };
 
-    // ALL VALUES OF ORG SHIFT ALPHA IN TEXT CONTENT
+    // ALL VALUES OF [CLASSNAME, ORG, SHIFT, ALPHA]
     const dataContent = [
-        ['Shift'], ['Alpha'], ['Mode', 'CLR'], ['On'],
-        ['x<sup>-1</sup>', 'x!'], ['nCr', 'nPr'], ['Pol(', 'Rec(', ':'], ['x<sup>3</sup>', '<sup>3</sup>√'],
-        ['a b/c', 'd/c'], ['√'], ['x<sup>2</sup>'], ['^', '<sup>x</sup>√'], ['log', '10<sup>x</sup>'], ['ln', 'e<sup>x</sup>', 'e'],
-        ['(-)', null, 'A'], ['.,,,', '<-', 'B'], ['hyp', null, 'C'], ['sin', 'sin⁻¹', 'D'], ['cos', 'cos⁻¹', 'E'], ['tan', 'tan⁻¹', 'F'],
-        ['RCL', 'STO'], ['ENG', '<-'], ['('], [')', null, 'X'], [',', ';', 'Y'], ['M+', 'M-', 'M'],
-        ['7'], ['8'], ['9'], ['DEL', 'INS'], ['AC', 'OFF'],
-        ['4'], ['5'], ['6'], ['×'], ['÷'],
-        ['1', 'S-SUM'], ['2', 'S-VAR'], ['3'], ['+'], ['-'],
-        ['0', 'Rnd'], ['.', 'Ran#'], ['EXP', 'π'], ['Ans', 'DRG>'], ['=', '%']
+        ['shift', 'Shift'], ['alpha', 'Alpha'], ['mode', 'Mode', 'CLR'], ['on', 'On'],
+        ['x_inverse', 'x<sup>-1</sup>', 'x!'], ['combinations', 'nCr', 'nPr'], ['pol', 'Pol(', 'Rec(', ':'], ['x_cube', 'x<sup>3</sup>', '<sup>3</sup>√'],
+        ['abc', 'a b/c', 'd/c'], ['sqrt', '√'], ['x_square', 'x<sup>2</sup>'], ['up_arrow', '^', '<sup>x</sup>√'], ['log', 'log', '10<sup>x</sup>'], ['ln', 'ln', 'e<sup>x</sup>', 'e'],
+        ['bracket_minus', '(-)', null, 'A'], ['degree', '. , , ,', '<-', 'B'], ['hyp', 'hyp', null, 'C'],
+        ['sin', 'sin', 'sin⁻¹', 'D'], ['cos', 'cos', 'cos⁻¹', 'E'], ['tan', 'tan', 'tan⁻¹', 'F'],
+        ['rcl', 'RCL', 'STO'], ['eng', 'ENG', '<-'], ['left_bracket', '('], ['right_bracket', ')', null, 'X'], ['coma', ',', ';', 'Y'], ['m_plus', 'M+', 'M-', 'M'],
+        ['seven', '7'], ['eight', '8'], ['nine', '9'], ['delete', 'DEL', 'INS'], ['all_clear', 'AC', 'OFF'],
+        ['four', '4'], ['five', '5'], ['six', '6'], ['multiply', '×'], ['divide', '÷'],
+        ['one', '1', 'S-SUM'], ['two', '2', 'S-VAR'], ['three', '3'], ['addition', '+'], ['subtraction', '-'],
+        ['zero', '0', 'Rnd'], ['point', '.', 'Ran#'], ['exp', 'EXP', 'π'], ['answer', 'Ans', 'DRG>'], ['equal', '=', '%']
     ];
 
+    // RETURN OF UIController
     return {
         getDOMData: () => DOMData,
         getDataContent: dataContent,
@@ -38,51 +40,62 @@ let UIController = (() => {
 
 let updateController = (ui => {
     const updateDOM = ui.getDOMData();
-    console.log(ui.getDataContent);
-
     let selectAllButton = document.querySelectorAll('button');
 
-    // FIRE WHEN CLICK ON SHIFT
-    updateDOM.shift.addEventListener('click', () => {
-        for (let i = 0; i <= selectAllButton.length; i++) {
+    let shiftSwapMethod = () => {
+        // FOR LOOP FOR ALL BUTTONS
+        for (let i = 0; i <= selectAllButton.length - 1; i++) {
+            // FOREACH FOR GET LIST OF IT
             selectAllButton.forEach(cur => {
-                let getDataORG = ui.getDataContent[i][0];
-                let getShiftData = ui.getDataContent[i][1];
+                // FETCH DATA FROM UIController
+                let getDataClassName = ui.getDataContent[i][0];
+                let getDataORG = ui.getDataContent[i][1];
+                let getShiftData = ui.getDataContent[i][2];
 
-                if (getShiftData === undefined) {
+                // IF DATA IS UNDEFINED OR NULL, SECOND VALUE = FIRST VALUE
+                if (getShiftData === undefined || getShiftData === null) {
                     getShiftData = getDataORG;
                 }
 
-                console.log(getDataORG, getShiftData);
-                // console.log(cur.textContent);
-                // console.log(cur.className);
-                let getDataORGLower = getDataORG.toLowerCase();
-                if (cur.className === getDataORG) {
-                    if (getShiftData.includes('<sup>')) {
-                        document.querySelector('.' + getDataORG).innerHTML = getShiftData;
-                    } else {
-                        document.querySelector('.' + getDataORG).textContent = getShiftData;
-                    }
+                // CHECK FOR shiftCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
+                if (cur.className === getDataClassName && updateDOM.shiftCount === 0) {
+                    document.querySelector('.' + getDataClassName).innerHTML = getShiftData;
+                } else if (cur.className === getDataClassName && updateDOM.shiftCount === 1) {
+                    document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
                 }
-                // console.log(cur, cur.className);
-                // cur.addEventListener('click', current => {
-                //     let classVar = current.target.textContent;
-                //     console.log(classVar);
-                // });
             });
         }
-    });
 
-    selectAllButton.forEach(cur => {
-        // console.log(cur);
-        // console.log(cur, cur.className);
-        cur.addEventListener('click', current => {
-            let classVar = current.target.textContent;
-            console.log(classVar);
+        // IF ELSE CONDITION FOR CHANGE 0 AND 1
+        updateDOM.shiftCount === 0 ? updateDOM.shiftCount = 1 : updateDOM.shiftCount = 0;
+    };
+
+    // FIRE WHEN CLICK ON SHIFT
+    let swiftClick = () => {
+        updateDOM.shift.addEventListener('click', () => {
+            shiftSwapMethod(updateDOM.shiftCount);
         });
-    });
+    };
+
+        // selectAllButton.forEach(cur => {
+    //     // console.log(cur);
+    //     // console.log(cur, cur.className);
+    //     cur.addEventListener('click', current => {
+    //         let classVar = current.target.textContent;
+    //         console.log(classVar);
+    //     });
+    // });
+
+    return {
+        getSwiftClick: () => swiftClick()
+    }
+
 })(UIController);
 
 let controller = ((ui, update) => {
-
+    return {
+        init: () => update.getSwiftClick()
+    }
 })(UIController, updateController);
+
+controller.init();
