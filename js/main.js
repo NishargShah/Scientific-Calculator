@@ -15,6 +15,8 @@ let UIController = (() => {
         addition: document.querySelector('.addition'), subtraction: document.querySelector('.subtraction'),
         multiply: document.querySelector('.multiply'), divide: document.querySelector('.divide'),
         point: document.querySelector('.point'), exp: document.querySelector('.exp'), shiftCount: 0, alphaCount: 0
+
+        // displayTop displayBottom shiftCount alphaCount delete allClear
     };
 
     // ALL VALUES OF [CLASSNAME, ORG, SHIFT, ALPHA]
@@ -23,7 +25,7 @@ let UIController = (() => {
         ['x_inverse', 'x<sup>-1</sup>', 'x!'], ['combinations', 'nCr', 'nPr'], ['pol', 'Pol(', 'Rec(', ':'], ['x_cube', 'x<sup>3</sup>', '<sup>3</sup>√'],
         ['abc', 'a b/c', 'd/c'], ['sqrt', '√'], ['x_square', 'x<sup>2</sup>'], ['up_arrow', '^', '<sup>x</sup>√'], ['log', 'log', '10<sup>x</sup>'], ['ln', 'ln', 'e<sup>x</sup>', 'e'],
         ['bracket_minus', '(-)', null, 'A'], ['degree', '. , , ,', '<-', 'B'], ['hyp', 'hyp', null, 'C'],
-        ['sin', 'sin', 'sin⁻¹', 'D'], ['cos', 'cos', 'cos⁻¹', 'E'], ['tan', 'tan', 'tan⁻¹', 'F'],
+        ['sin', 'sin', 'sin<sup>-1</sup>', 'D'], ['cos', 'cos', 'cos<sup>-1</sup>', 'E'], ['tan', 'tan', 'tan<sup>-1</sup>', 'F'],
         ['rcl', 'RCL', 'STO'], ['eng', 'ENG', '<-'], ['left_bracket', '('], ['right_bracket', ')', null, 'X'], ['coma', ',', ';', 'Y'], ['m_plus', 'M+', 'M-', 'M'],
         ['seven', '7'], ['eight', '8'], ['nine', '9'], ['delete', 'DEL', 'INS'], ['all_clear', 'AC', 'OFF'],
         ['four', '4'], ['five', '5'], ['six', '6'], ['multiply', '×'], ['divide', '÷'],
@@ -83,8 +85,27 @@ let updateController = (ui => {
         }
     };
 
-    // FIRE WHEN CLICK ON SHIFT OR ALPHA
-    let clickOfShiftAndAlpha = () => {
+    // FIRED WHEN YOU CLICK ON "ON"
+    let clickOnStart = () => {
+        updateDOM.displayTop.value = '';
+        updateDOM.displayBottom.value = '0';
+        updateDOM.displayTop.style.visibility = 'visible';
+        updateDOM.displayBottom.style.visibility = 'visible';
+    };
+
+    // FIRED WHEN YOU CLICK ON "AC"
+    let allClear = () => {
+        updateDOM.displayTop.value = '';
+        updateDOM.displayBottom.value = '0';
+    };
+
+    // FIRED WHEN YOU CLICK ON "DEL"
+    let clickOnDelete = () => {
+        updateDOM.displayTop.value = updateDOM.displayTop.value.slice(0, -1);
+    };
+
+    // FIRE WHEN CLICK ON BUTTON LIKE SHIFT ALPHA
+    let clickOnButton = () => {
         // FIRE WHEN CLICK ON SHIFT
         updateDOM.shift.addEventListener('click', () => {
             swapOfShiftAndAlpha('shift');
@@ -96,11 +117,26 @@ let updateController = (ui => {
             swapOfShiftAndAlpha('alpha');
             console.log('alpha', updateDOM.alphaCount);
         });
+
+        // FIRED WHEN YOU CLICK ON "ON"
+        updateDOM.on.addEventListener('click', () => {
+            clickOnStart();
+        });
+
+        // FIRED WHEN YOU CLICK ON "AC"
+        updateDOM.on.addEventListener('click', () => {
+            allClear();
+        });
+
+        // FIRED WHEN YOU CLICK ON "DEL"
+        updateDOM.delete.addEventListener('click', () => {
+            clickOnDelete();
+        });
     };
 
     // RETURN OF updateController
     return {
-        getClick: () => clickOfShiftAndAlpha()
+        getClick: () => clickOnButton()
     }
 
 })(UIController);
