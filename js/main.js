@@ -82,14 +82,17 @@ let updateController = (ui => {
         if (getShiftData === undefined || getShiftData === null) getShiftData = getDataORG;
 
         // CHECK FOR shiftCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
-        if (cur.className === getDataClassName && updateDOM.shiftCount === 0) {
-            document.querySelector('.' + getDataClassName).innerHTML = getShiftData;
-            updateDOM.circleShift.style.backgroundColor = 'yellow';
-            updateDOM.circleAlpha.style.backgroundColor = 'transparent';
-        } else if (cur.className === getDataClassName && updateDOM.shiftCount === 1) {
-            document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
-            updateDOM.circleShift.style.backgroundColor = 'transparent';
-            updateDOM.circleAlpha.style.backgroundColor = 'transparent';
+        if (cur.className === getDataClassName) {
+            if (updateDOM.shiftCount === 0) {
+                document.querySelector('.' + getDataClassName).innerHTML = getShiftData;
+                updateDOM.circleShift.style.backgroundColor = 'yellow';
+                updateDOM.circleAlpha.style.backgroundColor = 'transparent';
+            } else {
+                document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
+                updateDOM.circleShift.style.backgroundColor = 'transparent';
+                updateDOM.circleAlpha.style.backgroundColor = 'transparent';
+                console.log('shift');
+            }
         }
     };
 
@@ -98,14 +101,45 @@ let updateController = (ui => {
         if (getAlphaData === undefined || getAlphaData === null) getAlphaData = getDataORG;
 
         // CHECK FOR alphaCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
-        if (cur.className === getDataClassName && updateDOM.alphaCount === 0) {
-            document.querySelector('.' + getDataClassName).innerHTML = getAlphaData;
-            updateDOM.circleAlpha.style.backgroundColor = 'yellow';
-            updateDOM.circleShift.style.backgroundColor = 'transparent';
-        } else if (cur.className === getDataClassName && updateDOM.alphaCount === 1) {
-            document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
-            updateDOM.circleAlpha.style.backgroundColor = 'transparent';
-            updateDOM.circleShift.style.backgroundColor = 'transparent';
+        if (cur.className === getDataClassName) {
+            if (updateDOM.alphaCount === 0) {
+                document.querySelector('.' + getDataClassName).innerHTML = getAlphaData;
+                updateDOM.circleAlpha.style.backgroundColor = 'yellow';
+                updateDOM.circleShift.style.backgroundColor = 'transparent';
+            } else {
+                document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
+                updateDOM.circleAlpha.style.backgroundColor = 'transparent';
+                updateDOM.circleShift.style.backgroundColor = 'transparent';
+                console.log('shift');
+            }
+        }
+    };
+
+    let changeValueOfShift = () => {
+        if (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 0) {
+            updateDOM.shiftCount = 1;
+            console.log('shift 00');
+        } else if (updateDOM.shiftCount === 1 && updateDOM.alphaCount === 0) {
+            updateDOM.shiftCount = 0;
+            console.log('shift 10');
+        } else if (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 1) {
+            updateDOM.shiftCount = 1;
+            updateDOM.alphaCount = 0;
+            console.log('shift 01');
+        }
+    };
+
+    let changeValueOfAlpha = () => {
+        if (updateDOM.alphaCount === 0 && updateDOM.shiftCount === 0) {
+            updateDOM.alphaCount = 1;
+            console.log('alpha 00');
+        } else if (updateDOM.alphaCount === 1 && updateDOM.shiftCount === 0) {
+            updateDOM.alphaCount = 0;
+            console.log('alpha 10');
+        } else if (updateDOM.alphaCount === 0 && updateDOM.shiftCount === 1) {
+            updateDOM.alphaCount = 1;
+            updateDOM.shiftCount = 0;
+            console.log('alpha 01');
         }
     };
 
@@ -130,9 +164,9 @@ let updateController = (ui => {
 
         // IF ELSE CONDITION FOR CHANGE 0 AND 1
         if (value === 'shift') {
-            updateDOM.shiftCount === 0 ? updateDOM.shiftCount = 1 : updateDOM.shiftCount = 0;
+            changeValueOfShift();
         } else {
-            updateDOM.alphaCount === 0 ? updateDOM.alphaCount = 1 : updateDOM.alphaCount = 0;
+            changeValueOfAlpha();
         }
     };
 
@@ -230,7 +264,7 @@ let updateController = (ui => {
             // CLICK ON BUTTON
             cur.addEventListener('click', current => {
                 getValueOfButton(current);
-                swapWhenClickOnButton(current);
+                // swapWhenClickOnButton(current);
             });
         });
     };
