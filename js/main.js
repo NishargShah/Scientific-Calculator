@@ -44,24 +44,24 @@ let UIController = (() => {
         [' )', ' )', 'X', 'right_bracket', ')', null, 'X'],
         [null, null, null, 'coma', ',', ';', 'Y'],
         [null, null, null, 'm_plus', 'M+', 'M-', 'M'],
-        ['7', '7', '7', 'seven', '7'],
-        ['8', '8', '8', 'eight', '8'],
-        ['9', '9', '9', 'nine', '9'],
+        ['7', null, null, 'seven', '7'],
+        ['8', null, null, 'eight', '8'],
+        ['9', null, null, 'nine', '9'],
         [null, null, null, 'delete', 'DEL', 'INS'],
         [null, null, null, 'all_clear', 'AC', 'OFF'],
-        ['4', '4', '4', 'four', '4'],
-        ['5', '5', '5', 'five', '5'],
-        ['6', '6', '6', 'six', '6'],
-        ['*', '*', '*', 'multiply', '×'],
-        ['/', '/', '/', 'divide', '÷'],
-        ['1', '', '', 'one', '1', 'S-SUM'],
-        ['2', '', '', 'two', '2', 'S-VAR'],
-        ['3', '3', '3', 'three', '3'],
-        ['+', '+', '+', 'addition', '+'],
-        ['-', '-', '-', 'subtraction', '-'],
-        ['0', 'Rnd', '0', 'zero', '0', 'Rnd'],
-        ['.', 'Ran#', '.', 'point', '.', 'Ran#'],
-        ['E', 'π', 'E', 'exp', 'EXP', 'π'],
+        ['4', null, null, 'four', '4'],
+        ['5', null, null, 'five', '5'],
+        ['6', null, null, 'six', '6'],
+        ['*', null, null, 'multiply', '×'],
+        ['/', null, null, 'divide', '÷'],
+        ['1', null, null, 'one', '1', 'S-SUM'],
+        ['2', null, null, 'two', '2', 'S-VAR'],
+        ['3', null, null, 'three', '3'],
+        ['+', null, null, 'addition', '+'],
+        ['-', null, null, 'subtraction', '-'],
+        ['0', null, null, 'zero', '0', 'Rnd'],
+        ['.', 'Ran#', null, 'point', '.', 'Ran#'],
+        ['E', 'π', null, 'exp', 'EXP', 'π'],
         [null, null, null, 'answer', 'Ans', 'DRG>'],
         [null, '%', null, 'equal', '=', '%']
     ];
@@ -77,6 +77,38 @@ let updateController = (ui => {
     const updateDOM = ui.getDOMData();
     let selectAllButton = document.querySelectorAll('button');
 
+    let changeToShift = (cur, getDataORG, getDataClassName, getShiftData) => {
+        // IF DATA IS UNDEFINED OR NULL, SECOND VALUE = FIRST VALUE
+        if (getShiftData === undefined || getShiftData === null) getShiftData = getDataORG;
+
+        // CHECK FOR shiftCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
+        if (cur.className === getDataClassName && updateDOM.shiftCount === 0) {
+            document.querySelector('.' + getDataClassName).innerHTML = getShiftData;
+            updateDOM.circleShift.style.backgroundColor = 'yellow';
+            updateDOM.circleAlpha.style.backgroundColor = 'transparent';
+        } else if (cur.className === getDataClassName && updateDOM.shiftCount === 1) {
+            document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
+            updateDOM.circleShift.style.backgroundColor = 'transparent';
+            updateDOM.circleAlpha.style.backgroundColor = 'transparent';
+        }
+    };
+
+    let changeToAlpha = (cur, getDataORG, getDataClassName, getAlphaData) => {
+        // IF DATA IS UNDEFINED OR NULL, SECOND VALUE = FIRST VALUE
+        if (getAlphaData === undefined || getAlphaData === null) getAlphaData = getDataORG;
+
+        // CHECK FOR alphaCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
+        if (cur.className === getDataClassName && updateDOM.alphaCount === 0) {
+            document.querySelector('.' + getDataClassName).innerHTML = getAlphaData;
+            updateDOM.circleAlpha.style.backgroundColor = 'yellow';
+            updateDOM.circleShift.style.backgroundColor = 'transparent';
+        } else if (cur.className === getDataClassName && updateDOM.alphaCount === 1) {
+            document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
+            updateDOM.circleAlpha.style.backgroundColor = 'transparent';
+            updateDOM.circleShift.style.backgroundColor = 'transparent';
+        }
+    };
+
     let swapOfShiftAndAlpha = (value) => {
         // FOR LOOP FOR ALL BUTTONS
         for (let i = 0; i <= selectAllButton.length - 1; i++) {
@@ -89,23 +121,9 @@ let updateController = (ui => {
                 let getAlphaData = ui.getDataContent[i][6];
 
                 if (value === 'shift') {
-                    // IF DATA IS UNDEFINED OR NULL, SECOND VALUE = FIRST VALUE
-                    if (getShiftData === undefined || getShiftData === null) getShiftData = getDataORG;
-
-                    // CHECK FOR shiftCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
-                    if (cur.className === getDataClassName && updateDOM.shiftCount === 0) {
-                        document.querySelector('.' + getDataClassName).innerHTML = getShiftData;
-                    } else if (cur.className === getDataClassName && updateDOM.shiftCount === 1) {
-                        document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
-                    }
+                    changeToShift(cur, getDataORG, getDataClassName, getShiftData);
                 } else {
-                    if (getAlphaData === undefined || getAlphaData === null) getAlphaData = getDataORG;
-
-                    if (cur.className === getDataClassName && updateDOM.alphaCount === 0) {
-                        document.querySelector('.' + getDataClassName).innerHTML = getAlphaData;
-                    } else if (cur.className === getDataClassName && updateDOM.alphaCount === 1) {
-                        document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
-                    }
+                    changeToAlpha(cur, getDataORG, getDataClassName, getAlphaData);
                 }
             });
         }
@@ -146,6 +164,29 @@ let updateController = (ui => {
         }
     };
 
+    let getValueOfButton = (current) => {
+        for (let i = 0; i <= selectAllButton.length - 1; i++) {
+            let getDisplayORG = ui.getDataContent[i][0];
+            let getDisplayOfShift = ui.getDataContent[i][1];
+            let getDisplayOfAlpha = ui.getDataContent[i][2];
+            let getDataClassName = ui.getDataContent[i][3];
+            let classVar = current.target.className;
+
+            if (classVar === getDataClassName && getDisplayORG !== null && (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 0)) {
+                updateDOM.displayTop.value += getDisplayORG;
+                console.log('press if');
+            }
+            if (classVar === getDataClassName && getDisplayOfShift !== null && updateDOM.shiftCount === 1) {
+                console.log('press shift');
+                updateDOM.displayTop.value += getDisplayOfShift;
+            }
+            if (classVar === getDataClassName && getDisplayOfAlpha !== null && updateDOM.alphaCount === 1) {
+                console.log('press alpha');
+                updateDOM.displayTop.value += getDisplayOfAlpha;
+            }
+        }
+    };
+
     // FIRE WHEN CLICK ON BUTTON LIKE SHIFT ALPHA
     let clickOnButton = () => {
         // FIRE WHEN CLICK ON SHIFT
@@ -179,29 +220,8 @@ let updateController = (ui => {
         selectAllButton.forEach(cur => {
             // CLICK ON BUTTON
             cur.addEventListener('click', current => {
-
+                getValueOfButton(current);
                 swapWhenClickOnButton(current);
-
-                for (let i = 0; i <= selectAllButton.length - 1; i++) {
-                    let getDisplayORG = ui.getDataContent[i][0];
-                    let getDisplayOfShift = ui.getDataContent[i][1];
-                    let getDisplayOfAlpha = ui.getDataContent[i][2];
-                    let getDataClassName = ui.getDataContent[i][3];
-                    let classVar = current.target.className;
-
-                    if (classVar === getDataClassName && getDisplayORG !== null && (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 0)) {
-                        updateDOM.displayTop.value += getDisplayORG;
-                        console.log('press if');
-                    } else {
-                        console.log('press else');
-                        // if (updateDOM.shiftCount === 1) {
-                        //     updateDOM.displayTop.value += getDisplayOfShift;
-                        // }
-                        // if (updateDOM.alphaCount === 1) {
-                        //     updateDOM.displayTop.value += getDisplayOfAlpha;
-                        // }
-                    }
-                }
             });
         });
     };
