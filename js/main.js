@@ -67,10 +67,24 @@ let UIController = (() => {
         [null, '%', null, 'equal', '=', '%']
     ];
 
+    // DISABLED METHOD FOR [ORG, SHIFT, ALPHA]
+    const disabledData = [
+        [1], [1], [0], [1],
+        [1], [0], [0], [1],
+        [0], [1], [1], [1, 0, 1], [1], [1],
+        [0], [0], [0], [1, 1, 0], [1, 1, 0], [1, 1, 0],
+        [0], [0], [1], [1, 1, 0], [0], [0],
+        [1], [1], [1], [1, 0, 1], [1],
+        [1], [1], [1], [1], [1],
+        [1, 0, 1], [1, 0, 1], [1], [1], [1],
+        [1, 0, 1], [1], [1], [0], [1]
+    ];
+
     // RETURN OF UIController
     return {
         getDOMData: () => DOMData,
         getDataContent: dataContent,
+        getDisabledData: disabledData
     }
 })();
 
@@ -79,9 +93,11 @@ let updateController = (ui => {
     let selectAllButton = document.querySelectorAll('button');
 
     // CHANGING CONTENT OF CALC WHEN PRESS IN SHIFT
-    let changeToShift = (cur, getDataORG, getDataClassName, getShiftData) => {
+    let changeToShift = (cur, getDataORG, getDataClassName, getShiftData, knowDisabledForORG, knowDisabledForShift) => {
         // IF DATA IS UNDEFINED OR NULL, SECOND VALUE = FIRST VALUE
         if (getShiftData === undefined || getShiftData === null) getShiftData = getDataORG;
+
+        if (knowDisabledForShift === undefined || knowDisabledForShift === null) knowDisabledForShift = knowDisabledForORG;
 
         // CHECK FOR shiftCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
         if (cur.className === getDataClassName) {
@@ -94,13 +110,27 @@ let updateController = (ui => {
                 updateDOM.circleShift.style.backgroundColor = 'transparent';
                 updateDOM.circleAlpha.style.backgroundColor = 'transparent';
             }
+
+            if (updateDOM.shiftCount === 0 && knowDisabledForShift === 0) {
+                // document.querySelector('.' + cur.className).removeAttribute('disabled');
+                document.querySelector('.' + cur.className).setAttribute('disabled', '');
+                console.log('shift if dis', cur.className);
+            } else if (knowDisabledForShift === 0 && knowDisabledForORG === 1) {
+                document.querySelector('.' + cur.className).removeAttribute('disabled');
+                console.log('shift else if remove', cur.className);
+            } else if (updateDOM.shiftCount === 0 && knowDisabledForShift === 1) {
+                document.querySelector('.' + cur.className).removeAttribute('disabled');
+                console.log('shift else', cur.className);
+            }
         }
     };
 
     // CHANGING CONTENT OF CALC WHEN PRESS IN ALPHA
-    let changeToAlpha = (cur, getDataORG, getDataClassName, getAlphaData) => {
+    let changeToAlpha = (cur, getDataORG, getDataClassName, getAlphaData, knowDisabledForORG, knowDisabledForAlpha) => {
         // IF DATA IS UNDEFINED OR NULL, SECOND VALUE = FIRST VALUE
         if (getAlphaData === undefined || getAlphaData === null) getAlphaData = getDataORG;
+
+        if (knowDisabledForAlpha === undefined || knowDisabledForAlpha === null) knowDisabledForAlpha = knowDisabledForORG;
 
         // CHECK FOR alphaCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
         if (cur.className === getDataClassName) {
@@ -112,6 +142,17 @@ let updateController = (ui => {
                 document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
                 updateDOM.circleAlpha.style.backgroundColor = 'transparent';
                 updateDOM.circleShift.style.backgroundColor = 'transparent';
+            }
+
+            if (updateDOM.alphaCount === 0 && knowDisabledForAlpha === 0) {
+                document.querySelector('.' + cur.className).setAttribute('disabled', '');
+                console.log('alpha if dis', cur.className);
+            } else if (knowDisabledForAlpha === 0 && knowDisabledForORG === 1) {
+                document.querySelector('.' + cur.className).removeAttribute('disabled');
+                console.log('alpha else if remove', cur.className);
+            } else if (knowDisabledForAlpha === 1) {
+                document.querySelector('.' + cur.className).setAttribute('disabled', '');
+                console.log('alpha else', cur.className);
             }
         }
     };
@@ -156,10 +197,14 @@ let updateController = (ui => {
             let getShiftData = ui.getDataContent[i][5];
             let getAlphaData = ui.getDataContent[i][6];
 
+            let knowDisabledForORG = ui.getDisabledData[i][0];
+            let knowDisabledForShift = ui.getDisabledData[i][1];
+            let knowDisabledForAlpha = ui.getDisabledData[i][2];
+
             if (value === 'shift') {
-                changeToShift(cur, getDataORG, getDataClassName, getShiftData);
+                changeToShift(cur, getDataORG, getDataClassName, getShiftData, knowDisabledForORG, knowDisabledForShift);
             } else {
-                changeToAlpha(cur, getDataORG, getDataClassName, getAlphaData);
+                changeToAlpha(cur, getDataORG, getDataClassName, getAlphaData, knowDisabledForORG, knowDisabledForAlpha);
             }
         });
 
@@ -226,6 +271,17 @@ let updateController = (ui => {
         }
     };
 
+    let disabledWhenLoad = () => {
+
+        selectAllButton.forEach((cur, i) => {
+            let knowDisabledForORG = ui.getDisabledData[i][0];
+
+            if (knowDisabledForORG === 0) {
+                document.querySelector('.' + cur.className).setAttribute('disabled', '');
+            }
+        });
+    };
+
     // FIRE WHEN CLICK ON BUTTON
     let clickOnButton = () => {
         // FIRE WHEN CLICK ON SHIFT
@@ -267,7 +323,8 @@ let updateController = (ui => {
 
     // RETURN OF updateController
     return {
-        getClick: () => clickOnButton()
+        getClick: () => clickOnButton(),
+        disabledData: () => disabledWhenLoad()
     }
 
 })(UIController);
@@ -278,6 +335,7 @@ let controller = ((ui, update) => {
     return {
         init: () => {
             update.getClick();
+            update.disabledData();
         }
     }
 })(UIController, updateController);
