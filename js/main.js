@@ -41,8 +41,8 @@ let UIController = (() => {
         ['tan ', 'tan⁻¹', null, 'tan', 'tan', 'tan<sup>-1</sup>', 'F'],
         [null, null, null, 'rcl', 'RCL', 'STO'],
         [null, null, null, 'eng', 'ENG', '<-'],
-        ['( ', null, null, 'left_bracket', '('],
-        [' )', null, null, 'right_bracket', ')', null, 'X'],
+        ['(', null, null, 'left_bracket', '('],
+        [')', null, null, 'right_bracket', ')', null, 'X'],
         [null, null, null, 'coma', ',', ';', 'Y'],
         [null, null, null, 'm_plus', 'M+', 'M-', 'M'],
         ['7', null, null, 'seven', '7'],
@@ -88,9 +88,49 @@ let UIController = (() => {
     }
 })();
 
-let updateController = (ui => {
-    const updateDOM = ui.getDOMData();
+let shiftAlphaController = (ui => {
+    let domData = ui.getDOMData();
     let selectAllButton = document.querySelectorAll('button');
+
+    // DEFAULT DISABLED, ITS LOAD WHEN DOM IS READY
+    let disabledWhenLoad = () => {
+        selectAllButton.forEach((cur, i) => {
+            let knowDisabledForORG = ui.getDisabledData[i][0];
+
+            if (knowDisabledForORG === 0) {
+                document.querySelector('.' + cur.className).setAttribute('disabled', '');
+            }
+        });
+    };
+
+    // CHECK FOR DISABLE WHEN PRESS SHIFT
+    let shiftDisabled = (cur, knowDisabledForORG, knowDisabledForShift) => {
+        if (knowDisabledForShift === 0 && domData.shiftCount === 0) {
+            // document.querySelector('.' + cur.className).removeAttribute('disabled');
+            document.querySelector('.' + cur.className).setAttribute('disabled', '');
+            // console.log('shift if', cur.className);
+        } else if (knowDisabledForShift === 0 && knowDisabledForORG === 1) {
+            document.querySelector('.' + cur.className).removeAttribute('disabled');
+            // console.log('shift elseif', cur.className);
+        } else if (knowDisabledForShift === 1 && domData.shiftCount === 0) {
+            document.querySelector('.' + cur.className).removeAttribute('disabled');
+            // console.log('shift else', cur.className);
+        }
+    };
+
+    // CHECK FOR DISABLE WHEN PRESS ALPHA
+    let alphaDisabled = (cur, knowDisabledForORG, knowDisabledForAlpha) => {
+        if (knowDisabledForAlpha === 0 && domData.alphaCount === 0) {
+            document.querySelector('.' + cur.className).setAttribute('disabled', '');
+            // console.log('alpha if', cur.className);
+        } else if (knowDisabledForAlpha === 0 && knowDisabledForORG === 1) {
+            document.querySelector('.' + cur.className).removeAttribute('disabled');
+            // console.log('alpha elseif', cur.className);
+        } else if (knowDisabledForAlpha === 1 && domData.alphaCount === 0) {
+            document.querySelector('.' + cur.className).removeAttribute('disabled');
+            // console.log('alpha else', cur.className);
+        }
+    };
 
     // CHANGING CONTENT OF CALC WHEN PRESS IN SHIFT
     let changeToShift = (cur, getDataORG, getDataClassName, getShiftData, knowDisabledForORG, knowDisabledForShift) => {
@@ -102,14 +142,14 @@ let updateController = (ui => {
 
         // CHECK FOR shiftCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
         if (cur.className === getDataClassName) {
-            if (updateDOM.shiftCount === 0) {
+            if (domData.shiftCount === 0) {
                 document.querySelector('.' + getDataClassName).innerHTML = getShiftData;
-                updateDOM.circleShift.style.backgroundColor = 'yellow';
-                updateDOM.circleAlpha.style.backgroundColor = 'transparent';
+                domData.circleShift.style.backgroundColor = 'yellow';
+                domData.circleAlpha.style.backgroundColor = 'transparent';
             } else {
                 document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
-                updateDOM.circleShift.style.backgroundColor = 'transparent';
-                updateDOM.circleAlpha.style.backgroundColor = 'transparent';
+                domData.circleShift.style.backgroundColor = 'transparent';
+                domData.circleAlpha.style.backgroundColor = 'transparent';
             }
 
             // CHECK FOR DISABLE WHEN PRESS SHIFT
@@ -127,14 +167,14 @@ let updateController = (ui => {
 
         // CHECK FOR alphaCount IF IT IS 0 THEN SWAP BUT IF ITS 1, ITS BACK TO ORG CONTENT
         if (cur.className === getDataClassName) {
-            if (updateDOM.alphaCount === 0) {
+            if (domData.alphaCount === 0) {
                 document.querySelector('.' + getDataClassName).innerHTML = getAlphaData;
-                updateDOM.circleAlpha.style.backgroundColor = 'yellow';
-                updateDOM.circleShift.style.backgroundColor = 'transparent';
+                domData.circleAlpha.style.backgroundColor = 'yellow';
+                domData.circleShift.style.backgroundColor = 'transparent';
             } else {
                 document.querySelector('.' + getDataClassName).innerHTML = getDataORG;
-                updateDOM.circleAlpha.style.backgroundColor = 'transparent';
-                updateDOM.circleShift.style.backgroundColor = 'transparent';
+                domData.circleAlpha.style.backgroundColor = 'transparent';
+                domData.circleShift.style.backgroundColor = 'transparent';
             }
 
             // CHECK FOR DISABLE WHEN PRESS ALPHA
@@ -142,73 +182,32 @@ let updateController = (ui => {
         }
     };
 
-    // DEFAULT DISABLED, ITS LOAD WHEN DOM IS READY
-    let disabledWhenLoad = () => {
-
-        selectAllButton.forEach((cur, i) => {
-            let knowDisabledForORG = ui.getDisabledData[i][0];
-
-            if (knowDisabledForORG === 0) {
-                document.querySelector('.' + cur.className).setAttribute('disabled', '');
-            }
-        });
-    };
-
-    // CHECK FOR DISABLE WHEN PRESS SHIFT
-    let shiftDisabled = (cur, knowDisabledForORG, knowDisabledForShift) => {
-        if (knowDisabledForShift === 0 && updateDOM.shiftCount === 0) {
-            // document.querySelector('.' + cur.className).removeAttribute('disabled');
-            document.querySelector('.' + cur.className).setAttribute('disabled', '');
-            // console.log('shift if', cur.className);
-        } else if (knowDisabledForShift === 0 && knowDisabledForORG === 1) {
-            document.querySelector('.' + cur.className).removeAttribute('disabled');
-            // console.log('shift elseif', cur.className);
-        } else if (knowDisabledForShift === 1 && updateDOM.shiftCount === 0) {
-            document.querySelector('.' + cur.className).removeAttribute('disabled');
-            // console.log('shift else', cur.className);
-        }
-    };
-
-    // CHECK FOR DISABLE WHEN PRESS ALPHA
-    let alphaDisabled = (cur, knowDisabledForORG, knowDisabledForAlpha) => {
-        if (knowDisabledForAlpha === 0 && updateDOM.alphaCount === 0) {
-            document.querySelector('.' + cur.className).setAttribute('disabled', '');
-            // console.log('alpha if', cur.className);
-        } else if (knowDisabledForAlpha === 0 && knowDisabledForORG === 1) {
-            document.querySelector('.' + cur.className).removeAttribute('disabled');
-            // console.log('alpha elseif', cur.className);
-        } else if (knowDisabledForAlpha === 1 && updateDOM.alphaCount === 0) {
-            document.querySelector('.' + cur.className).removeAttribute('disabled');
-            // console.log('alpha else', cur.className);
-        }
-    };
-
     // CHANGING VALUE OF shiftCount WHEN PRESS IN SHIFT
     let changeValueOfShift = () => {
-        if (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 0) {
-            updateDOM.shiftCount = 1;
+        if (domData.shiftCount === 0 && domData.alphaCount === 0) {
+            domData.shiftCount = 1;
             // console.log('shift 00');
-        } else if (updateDOM.shiftCount === 1 && updateDOM.alphaCount === 0) {
-            updateDOM.shiftCount = 0;
+        } else if (domData.shiftCount === 1 && domData.alphaCount === 0) {
+            domData.shiftCount = 0;
             // console.log('shift 10');
-        } else if (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 1) {
-            updateDOM.shiftCount = 1;
-            updateDOM.alphaCount = 0;
+        } else if (domData.shiftCount === 0 && domData.alphaCount === 1) {
+            domData.shiftCount = 1;
+            domData.alphaCount = 0;
             // console.log('shift 01');
         }
     };
 
     // CHANGING VALUE OF alphaCount WHEN PRESS IN ALPHA
     let changeValueOfAlpha = () => {
-        if (updateDOM.alphaCount === 0 && updateDOM.shiftCount === 0) {
-            updateDOM.alphaCount = 1;
+        if (domData.alphaCount === 0 && domData.shiftCount === 0) {
+            domData.alphaCount = 1;
             // console.log('alpha 00');
-        } else if (updateDOM.alphaCount === 1 && updateDOM.shiftCount === 0) {
-            updateDOM.alphaCount = 0;
+        } else if (domData.alphaCount === 1 && domData.shiftCount === 0) {
+            domData.alphaCount = 0;
             // console.log('alpha 10');
-        } else if (updateDOM.alphaCount === 0 && updateDOM.shiftCount === 1) {
-            updateDOM.alphaCount = 1;
-            updateDOM.shiftCount = 0;
+        } else if (domData.alphaCount === 0 && domData.shiftCount === 1) {
+            domData.alphaCount = 1;
+            domData.shiftCount = 0;
             // console.log('alpha 01');
         }
     };
@@ -243,30 +242,12 @@ let updateController = (ui => {
         }
     };
 
-    // FIRED WHEN YOU CLICK ON "ON" OR "OFF"
-    let clickOnStartOrOff = (value) => {
-        allClear();
-        updateDOM.displayTop.style.visibility = value;
-        updateDOM.displayBottom.style.visibility = value;
-    };
-
-    // FIRED WHEN YOU CLICK ON "AC"
-    let allClear = () => {
-        updateDOM.displayTop.value = '';
-        updateDOM.displayBottom.value = '0';
-    };
-
-    // FIRED WHEN YOU CLICK ON "DEL"
-    let clickOnDelete = () => {
-        updateDOM.displayTop.value = updateDOM.displayTop.value.slice(0, -1);
-    };
-
     // SWAP CONTENT WHEN CLICK ON ANY BUTTON EXCEPT SHIFT AND ALPHA
     let swapWhenClickOnButton = (current) => {
         if (current.target.className !== 'shift' && current.target.className !== 'alpha') {
-            if (updateDOM.shiftCount === 1) {
+            if (domData.shiftCount === 1) {
                 swapOfShiftAndAlpha('shift');
-            } else if (updateDOM.alphaCount === 1) {
+            } else if (domData.alphaCount === 1) {
                 swapOfShiftAndAlpha('alpha');
             }
         }
@@ -282,81 +263,120 @@ let updateController = (ui => {
             let classVar = current.target.className;
 
             if (classVar === getDataClassName) {
-                if (getDisplayORG !== null && (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 0)) {
-                    updateDOM.displayTop.value += getDisplayORG;
+                if (getDisplayORG !== null && (domData.shiftCount === 0 && domData.alphaCount === 0)) {
+                    domData.displayTop.value += getDisplayORG;
                     // console.log('press if');
-                } else if (getDisplayOfShift !== null && updateDOM.shiftCount === 1) {
-                    updateDOM.displayTop.value += getDisplayOfShift;
+                } else if (getDisplayOfShift !== null && domData.shiftCount === 1) {
+                    domData.displayTop.value += getDisplayOfShift;
                     // console.log('press shift');
-                } else if (getDisplayOfAlpha !== null && updateDOM.alphaCount === 1) {
-                    updateDOM.displayTop.value += getDisplayOfAlpha;
+                } else if (getDisplayOfAlpha !== null && domData.alphaCount === 1) {
+                    domData.displayTop.value += getDisplayOfAlpha;
                     // console.log('press alpha');
                 }
             }
         }
     };
 
+    // RETURN OF shiftAlphaController
+    return {
+        disabledData: () => disabledWhenLoad(),
+        mainFunctionOfSA: (value) => swapOfShiftAndAlpha(value),
+        swapValueOfButton: (current) => swapWhenClickOnButton(current),
+        getValueOfButton: (current) => getValueOfButton(current)
+    }
+})(UIController);
+
+let smallFunctionController = ((ui) => {
+    const smallFDOM = ui.getDOMData();
+
+    // FIRED WHEN YOU CLICK ON "ON" OR "OFF"
+    let clickOnStartOrOff = (value) => {
+        allClear();
+        smallFDOM.displayTop.style.visibility = value;
+        smallFDOM.displayBottom.style.visibility = value;
+    };
+
+    // FIRED WHEN YOU CLICK ON "AC"
+    let allClear = () => {
+        smallFDOM.displayTop.value = '';
+        smallFDOM.displayBottom.value = '0';
+    };
+
+    // FIRED WHEN YOU CLICK ON "DEL"
+    let clickOnDelete = () => {
+        smallFDOM.displayTop.value = smallFDOM.displayTop.value.slice(0, -1);
+    };
+
+    // RETURN OF updateController
+    return {
+        getStartOrOff: (value) => clickOnStartOrOff(value),
+        getClear: () => allClear(),
+        getDelete: () => clickOnDelete()
+    }
+
+})(UIController);
+
+let clickController = ((ui, small, saController) => {
+    let clickDOM = ui.getDOMData();
+    let selectAllButton = document.querySelectorAll('button');
+
     // FIRE WHEN CLICK ON BUTTON
     let clickOnButton = () => {
         // FIRE WHEN CLICK ON SHIFT
-        updateDOM.shift.addEventListener('click', () => {
-            swapOfShiftAndAlpha('shift');
-            console.log('shift', updateDOM.shiftCount, 'alpha', updateDOM.alphaCount);
+        clickDOM.shift.addEventListener('click', () => {
+            saController.mainFunctionOfSA('shift');
+            console.log('shift', clickDOM.shiftCount, 'alpha', clickDOM.alphaCount);
         });
 
         // FIRE WHEN CLICK ON ALPHA
-        updateDOM.alpha.addEventListener('click', () => {
-            swapOfShiftAndAlpha('alpha');
-            console.log('shift', updateDOM.shiftCount, 'alpha', updateDOM.alphaCount);
+        clickDOM.alpha.addEventListener('click', () => {
+            saController.mainFunctionOfSA('alpha');
+            console.log('shift', clickDOM.shiftCount, 'alpha', clickDOM.alphaCount);
         });
 
         // FIRED WHEN YOU CLICK ON "ON"
-        updateDOM.on.addEventListener('click', () => {
-            clickOnStartOrOff('visible');
+        clickDOM.on.addEventListener('click', () => {
+            small.getStartOrOff('visible');
         });
 
         // FIRED WHEN YOU CLICK ON "AC"
-        updateDOM.allClear.addEventListener('click', () => {
-            if (updateDOM.shiftCount === 0) {
-                allClear();
+        clickDOM.allClear.addEventListener('click', () => {
+            if (clickDOM.shiftCount === 0) {
+                small.getClear();
             } else {
-                clickOnStartOrOff('hidden');
+                small.getStartOrOff('hidden');
             }
-
         });
 
         // FIRED WHEN YOU CLICK ON "DEL"
-        updateDOM.delete.addEventListener('click', () => {
-            clickOnDelete();
+        clickDOM.delete.addEventListener('click', () => {
+            small.getDelete();
         });
 
         // FETCH ALL DATA FROM BUTTONS AND MAIN FUNCTION OF SWAP VALUE
         selectAllButton.forEach(cur => {
             // CLICK ON BUTTON
             cur.addEventListener('click', current => {
-                getValueOfButton(current);
-                swapWhenClickOnButton(current);
+                saController.getValueOfButton(current);
+                saController.swapValueOfButton(current);
             });
         });
     };
 
-    // RETURN OF updateController
     return {
-        getClick: () => clickOnButton(),
-        disabledData: () => disabledWhenLoad()
+        clickEvent: () => clickOnButton()
     }
 
-})(UIController);
+})(UIController, smallFunctionController, shiftAlphaController);
 
-let controller = ((ui, update) => {
-
+let controller = ((saController, click) => {
     // RETURN OF controller
     return {
         init: () => {
-            update.getClick();
-            update.disabledData();
+            saController.disabledData();
+            click.clickEvent();
         }
     }
-})(UIController, updateController);
+})(shiftAlphaController, clickController);
 
 controller.init();
