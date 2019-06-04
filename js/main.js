@@ -114,11 +114,11 @@ let updateController = (ui => {
             if (updateDOM.shiftCount === 0 && knowDisabledForShift === 0) {
                 // document.querySelector('.' + cur.className).removeAttribute('disabled');
                 document.querySelector('.' + cur.className).setAttribute('disabled', '');
-                console.log('shift if dis', cur.className);
+                console.log('shift if', cur.className);
             } else if (knowDisabledForShift === 0 && knowDisabledForORG === 1) {
                 document.querySelector('.' + cur.className).removeAttribute('disabled');
-                console.log('shift else if remove', cur.className);
-            } else if (updateDOM.shiftCount === 0 && knowDisabledForShift === 1) {
+                console.log('shift elseif', cur.className);
+            } else if (knowDisabledForShift === 1 &&updateDOM.shiftCount === 0) {
                 document.querySelector('.' + cur.className).removeAttribute('disabled');
                 console.log('shift else', cur.className);
             }
@@ -146,12 +146,12 @@ let updateController = (ui => {
 
             if (updateDOM.alphaCount === 0 && knowDisabledForAlpha === 0) {
                 document.querySelector('.' + cur.className).setAttribute('disabled', '');
-                console.log('alpha if dis', cur.className);
+                console.log('alpha if', cur.className);
             } else if (knowDisabledForAlpha === 0 && knowDisabledForORG === 1) {
                 document.querySelector('.' + cur.className).removeAttribute('disabled');
-                console.log('alpha else if remove', cur.className);
-            } else if (knowDisabledForAlpha === 1) {
-                document.querySelector('.' + cur.className).setAttribute('disabled', '');
+                console.log('alpha elseif', cur.className);
+            } else if (knowDisabledForAlpha === 1 &&updateDOM.alphaCount === 0) {
+                document.querySelector('.' + cur.className).removeAttribute('disabled');
                 console.log('alpha else', cur.className);
             }
         }
@@ -258,12 +258,10 @@ let updateController = (ui => {
                 if (getDisplayORG !== null && (updateDOM.shiftCount === 0 && updateDOM.alphaCount === 0)) {
                     updateDOM.displayTop.value += getDisplayORG;
                     // console.log('press if');
-                }
-                if (getDisplayOfShift !== null && updateDOM.shiftCount === 1) {
+                } else if (getDisplayOfShift !== null && updateDOM.shiftCount === 1) {
                     updateDOM.displayTop.value += getDisplayOfShift;
                     // console.log('press shift');
-                }
-                if (getDisplayOfAlpha !== null && updateDOM.alphaCount === 1) {
+                } else if (getDisplayOfAlpha !== null && updateDOM.alphaCount === 1) {
                     updateDOM.displayTop.value += getDisplayOfAlpha;
                     // console.log('press alpha');
                 }
