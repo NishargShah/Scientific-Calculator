@@ -333,23 +333,38 @@ let equalController = ((ui) => {
             return !numbersValue.toString().includes(e);
         });
 
-        let matchIndex = getMap.map((e,i) => {
+        // FIND INDEX FROM MATCH SYMBOL
+        let matchIndex = getMap.map((e, i) => {
             return !numbersValue.toString().includes(e) ? i : undefined
-        }).filter(x => x);
+        }).filter(x => x !== undefined);
 
-        if (displayTop.value.includes('!')) {
-            console.log('fact');
-        } else {
-            displayBottom.value = eval(displayTop.value);
+        // REMOVE +-*/ FROM matchIndex
+        let symbolWithoutEval = matchSymbol.filter((e) => {
+            return !['+', '-', '*', '/'].includes(e);
+        });
+
+        // FIND INDEX FROM MATCH symbolWithoutEval
+        let indexWithoutEval = getMap.map((e, i) => {
+            return ![...numbersValue, '+', '-', '*', '/'].toString().includes(e) ? i : undefined
+        }).filter(x => x !== undefined);
+
+        if (displayTop.value.includes('+') || displayTop.value.includes('-') || displayTop.value.includes('*') || displayTop.value.includes('/')) {
+            if (displayTop.value.includes('!')) {
+                console.log('fact');
+            }
+
+            // displayBottom.value = eval(displayTop.value);
         }
 
         console.log('top', displayTop.value);
         console.log('bot', displayBottom.value);
-        console.log(allValueArray);
-        console.log(allSymbols);
+        // console.log(allValueArray);
+        // console.log(allSymbols);
         console.log(getMap);
         console.log(matchSymbol);
         console.log(matchIndex);
+        console.log(symbolWithoutEval);
+        console.log(indexWithoutEval);
     };
 
     return {
