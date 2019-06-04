@@ -13,7 +13,8 @@ let UIController = (() => {
         allClear: document.querySelector('.all_clear'), delete: document.querySelector('.delete'),
         addition: document.querySelector('.addition'), subtraction: document.querySelector('.subtraction'),
         multiply: document.querySelector('.multiply'), divide: document.querySelector('.divide'),
-        point: document.querySelector('.point'), exp: document.querySelector('.exp'), shiftCount: 0, alphaCount: 0
+        point: document.querySelector('.point'), exp: document.querySelector('.exp'),
+        shiftCount: 0, alphaCount: 0
     };
 
     // ALL VALUES OF [DISPLAY, shiftDisplay, alphaDisplay, CLASSNAME, ORG, SHIFT, ALPHA]
@@ -147,23 +148,20 @@ let updateController = (ui => {
 
     // MAIN FUNCTION OF SHIFT AND ALPHA LOGIC
     let swapOfShiftAndAlpha = (value) => {
-        // FOR LOOP FOR ALL BUTTONS
-        for (let i = 0; i <= selectAllButton.length - 1; i++) {
-            // FOREACH FOR GET LIST OF IT
-            selectAllButton.forEach(cur => {
-                // FETCH DATA FROM UIController
-                let getDataClassName = ui.getDataContent[i][3];
-                let getDataORG = ui.getDataContent[i][4];
-                let getShiftData = ui.getDataContent[i][5];
-                let getAlphaData = ui.getDataContent[i][6];
+        // FOREACH FOR GET LIST OF IT
+        selectAllButton.forEach((cur, i) => {
+            // FETCH DATA FROM UIController
+            let getDataClassName = ui.getDataContent[i][3];
+            let getDataORG = ui.getDataContent[i][4];
+            let getShiftData = ui.getDataContent[i][5];
+            let getAlphaData = ui.getDataContent[i][6];
 
-                if (value === 'shift') {
-                    changeToShift(cur, getDataORG, getDataClassName, getShiftData);
-                } else {
-                    changeToAlpha(cur, getDataORG, getDataClassName, getAlphaData);
-                }
-            });
-        }
+            if (value === 'shift') {
+                changeToShift(cur, getDataORG, getDataClassName, getShiftData);
+            } else {
+                changeToAlpha(cur, getDataORG, getDataClassName, getAlphaData);
+            }
+        });
 
         // IF ELSE CONDITION FOR CHANGE 0 AND 1
         if (value === 'shift') {
