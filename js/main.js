@@ -7,7 +7,7 @@ let UIController = (() => {
         alpha: document.querySelector('.alpha'), circleAlpha: document.querySelector('.circle_alpha'),
         sqrt: document.querySelector('.sqrt'), xInverse: document.querySelector('.x_inverse'),
         xSquare: document.querySelector('.x_square'), xCube: document.querySelector('.x_cube'),
-        upArrow: document.querySelector('.up_arrow'),
+        upArrow: document.querySelector('.up_arrow'), selectAllButton: document.querySelectorAll('button'),
         log: document.querySelector('.log'), ln: document.querySelector('.ln'),
         sin: document.querySelector('.sin'), cos: document.querySelector('.cos'), tan: document.querySelector('.tan'),
         allClear: document.querySelector('.all_clear'), delete: document.querySelector('.delete'),
@@ -90,7 +90,7 @@ let UIController = (() => {
 
 let shiftAlphaController = (ui => {
     let domData = ui.getDOMData();
-    let selectAllButton = document.querySelectorAll('button');
+    let selectAllButton = domData.selectAllButton;
 
     // DEFAULT DISABLED, ITS LOAD WHEN DOM IS READY
     let disabledWhenLoad = () => {
@@ -286,7 +286,78 @@ let shiftAlphaController = (ui => {
     }
 })(UIController);
 
-let smallFunctionController = ((ui) => {
+let equalController = ((ui) => {
+    let equalDOM = ui.getDOMData();
+    let equalDataContent = ui.getDataContent;
+    let allValueArray = [];
+    let numbersValue = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];  // ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let allSymbols = [];
+
+    // ADD ALL VALUES IN ONE ARRAY CALLED allValueArray AND GET ALL OPERAND FROM allValueArray
+    equalDOM.selectAllButton.forEach((cur, i) => {
+        let displayValue = equalDataContent[i][0];
+        let displaySValue = equalDataContent[i][1];
+        let displayAValue = equalDataContent[i][2];
+        if (displayValue !== null || displaySValue !== null || displayAValue !== null) {
+            allValueArray.push(displayValue, displaySValue, displayAValue);
+            allValueArray = allValueArray.filter(e => e !== null);
+            allSymbols = allValueArray.filter(e => {
+                return !numbersValue.toString().includes(e);
+            });
+        }
+    });
+
+    // FACTORIAL LOGIC
+    let factorial = n => {
+        if (n > 1) {
+            return n * factorial(n - 1);
+        } else if (n < - 1) {
+            return n * factorial(- n - 1);
+        } else if (n === - 1) {
+            return n;
+        } else {
+            return 1;
+        }
+    };
+
+    // FIRE WHEN YOU CLICK ON "EQUAL"
+    let clickEqual = () => {
+        let displayTop = equalDOM.displayTop;
+        let displayBottom = equalDOM.displayBottom;
+
+        // SPLIT DISPLAY TOP VALUE INTO ARRAY
+        let getMap = displayTop.value.split('').map(e => e);
+
+        // SPLIT SYMBOL FROM getMap
+        let matchSymbol = getMap.filter((e) => {
+            return !numbersValue.toString().includes(e);
+        });
+
+        let matchIndex = getMap.map((e,i) => {
+            return !numbersValue.toString().includes(e) ? i : undefined
+        }).filter(x => x);
+
+        if (displayTop.value.includes('!')) {
+            console.log('fact');
+        } else {
+            displayBottom.value = eval(displayTop.value);
+        }
+
+        console.log('top', displayTop.value);
+        console.log('bot', displayBottom.value);
+        console.log(allValueArray);
+        console.log(allSymbols);
+        console.log(getMap);
+        console.log(matchSymbol);
+        console.log(matchIndex);
+    };
+
+    return {
+        getEqual: () => clickEqual()
+    }
+})(UIController);
+
+let smallFunctionController = (ui => {
     const smallFDOM = ui.getDOMData();
 
     // FIRED WHEN YOU CLICK ON "ON" OR "OFF"
@@ -316,7 +387,7 @@ let smallFunctionController = ((ui) => {
 
 })(UIController);
 
-let clickController = ((ui, small, saController) => {
+let clickController = ((ui, small, saController, equal) => {
     let clickDOM = ui.getDOMData();
     let selectAllButton = document.querySelectorAll('button');
 
@@ -325,13 +396,13 @@ let clickController = ((ui, small, saController) => {
         // FIRE WHEN CLICK ON SHIFT
         clickDOM.shift.addEventListener('click', () => {
             saController.mainFunctionOfSA('shift');
-            console.log('shift', clickDOM.shiftCount, 'alpha', clickDOM.alphaCount);
+            // console.log('shift', clickDOM.shiftCount, 'alpha', clickDOM.alphaCount);
         });
 
         // FIRE WHEN CLICK ON ALPHA
         clickDOM.alpha.addEventListener('click', () => {
             saController.mainFunctionOfSA('alpha');
-            console.log('shift', clickDOM.shiftCount, 'alpha', clickDOM.alphaCount);
+            // console.log('shift', clickDOM.shiftCount, 'alpha', clickDOM.alphaCount);
         });
 
         // FIRED WHEN YOU CLICK ON "ON"
@@ -353,6 +424,15 @@ let clickController = ((ui, small, saController) => {
             small.getDelete();
         });
 
+        // FIRED WHEN YOU CLICK ON "EQUAL"
+        clickDOM.equal.addEventListener('click', () => {
+            if (clickDOM.shiftCount === 0) {
+                equal.getEqual();
+            } else {
+                console.log('press %');
+            }
+        });
+
         // FETCH ALL DATA FROM BUTTONS AND MAIN FUNCTION OF SWAP VALUE
         selectAllButton.forEach(cur => {
             // CLICK ON BUTTON
@@ -367,7 +447,7 @@ let clickController = ((ui, small, saController) => {
         clickEvent: () => clickOnButton()
     }
 
-})(UIController, smallFunctionController, shiftAlphaController);
+})(UIController, smallFunctionController, shiftAlphaController, equalController);
 
 let controller = ((saController, click) => {
     // RETURN OF controller
