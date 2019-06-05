@@ -290,7 +290,7 @@ let equalController = ((ui) => {
     let equalDOM = ui.getDOMData();
     let equalDataContent = ui.getDataContent;
     let allValueArray = [];
-    let numbersValue = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];  // ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let numbersValue = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     let allSymbols = [];
 
     // ADD ALL VALUES IN ONE ARRAY CALLED allValueArray AND GET ALL OPERAND FROM allValueArray
@@ -300,7 +300,9 @@ let equalController = ((ui) => {
         let displayAValue = equalDataContent[i][2];
         if (displayValue !== null || displaySValue !== null || displayAValue !== null) {
             allValueArray.push(displayValue, displaySValue, displayAValue);
+            // REMOVE NULL VALUE FROM THE allValueArray ARRAY
             allValueArray = allValueArray.filter(e => e !== null);
+            // REMOVE numbersValue ARRAY FROM THE allValueArray ARRAY
             allSymbols = allValueArray.filter(e => {
                 return !numbersValue.toString().includes(e);
             });
@@ -335,6 +337,7 @@ let equalController = ((ui) => {
             return ![...numbersValue, '+', '-', '*', '/'].toString().includes(e) ? i : undefined
         }).filter(x => x !== undefined);
 
+        // JOIN STRING OR ADD VALUE IN EXACT LOCATION OF INDEX
         let joinString = (index, insert) => {
             let localVar = getMap;
             localVar.splice( index , 0, insert);
@@ -342,6 +345,7 @@ let equalController = ((ui) => {
             return localVar;
         };
 
+        // LOGIC OF INVERSE ⁻¹
         let inverseLogic = () => {
             // FIND INDEX FROM getMap
             let defineLocation = getMap.findIndex(el => el.includes('¹')) - 1;
@@ -365,19 +369,29 @@ let equalController = ((ui) => {
             }
         };
 
-        // console.log(joinString(1, "5"));
-
+        // WHEN SOMEONE CLICK ON BUTTON SO VALUE IS INSERTED IN TOP DISPLAY AND THIS WILL FIRE
         if (displayTop.value !== '') {
+            // assumeValue IS NEEDED BECAUSE I CANT SHOW BACKGROUND PROCESS TO PPL
             let assumeValue;
 
+            // INVERSE PART
             if (displayTop.value.includes('⁻¹')) {
                 inverseLogic();
                 assumeValue = getMap.join('');
                 console.log(assumeValue);
+
+            // IF + - * / ARE ONLY IN TOP VALUE THIS WILL EXECUTE
             } else {
                 assumeValue = displayTop.value;
             }
-            displayBottom.value = math.eval(assumeValue.toString());
+
+            // CATCH ERROR WHEN MATH.JS NOT WORK
+            try {
+                displayBottom.value = math.eval(assumeValue.toString());
+            } catch(err) {
+                console.log(err);
+                displayBottom.value = 'Syntax ERROR'
+            }
             console.log('top', displayTop.value);
             console.log('bot', displayBottom.value);
             console.log(getMap);
@@ -385,13 +399,16 @@ let equalController = ((ui) => {
             console.log(matchIndex);
             // console.log(symbolWithoutEval);
             // console.log(indexWithoutEval);
+            // console.log(allValueArray);
+            // console.log(allSymbols);
+
+        // WHEN CALC START TOP VALUE IS EMPTY SO THIS WILL EXECUTE
         } else {
             console.log('empty');
         }
-        // console.log(allValueArray);
-        // console.log(allSymbols);
     };
 
+    // RETURN OF equalController
     return {
         getEqual: () => clickEqual()
     }
