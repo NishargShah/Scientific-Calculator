@@ -7,10 +7,6 @@ const babel = require("gulp-babel");
 const concat = require("gulp-concat");
 
 const source = [
-    // {
-    //     src: 'node_modules/@fortawesome/fontawesome-free/webfonts/**',
-    //     dest: 'assets/webfonts/'
-    // },
     {
         src: 'node_modules/bootstrap/scss/**',
         dest: 'assets/scss/'
@@ -21,7 +17,6 @@ const FileSource = [
     {
         src: [
             'node_modules/bootstrap/dist/css/bootstrap.min.css',
-            // 'node_modules/@fortawesome/fontawesome-free/css/all.min.css'
         ],
         concat: 'plugin.css',
         dest: 'assets/css/'
@@ -29,7 +24,8 @@ const FileSource = [
     {
         src: [
             'node_modules/jquery/dist/jquery.min.js',
-            'node_modules/bootstrap/dist/js/bootstrap.min.js'
+            'node_modules/bootstrap/dist/js/bootstrap.min.js',
+            'node_modules/mathjs/dist/math.min.js'
         ],
         concat: 'plugin.js',
         dest: 'assets/js/'

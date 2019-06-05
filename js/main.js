@@ -307,19 +307,6 @@ let equalController = ((ui) => {
         }
     });
 
-    // FACTORIAL LOGIC
-    let factorial = n => {
-        if (n > 1) {
-            return n * factorial(n - 1);
-        } else if (n < - 1) {
-            return n * factorial(- n - 1);
-        } else if (n === - 1) {
-            return n;
-        } else {
-            return 1;
-        }
-    };
-
     // FIRE WHEN YOU CLICK ON "EQUAL"
     let clickEqual = () => {
         let displayTop = equalDOM.displayTop;
@@ -348,23 +335,61 @@ let equalController = ((ui) => {
             return ![...numbersValue, '+', '-', '*', '/'].toString().includes(e) ? i : undefined
         }).filter(x => x !== undefined);
 
-        if (displayTop.value.includes('+') || displayTop.value.includes('-') || displayTop.value.includes('*') || displayTop.value.includes('/')) {
-            if (displayTop.value.includes('!')) {
-                console.log('fact');
+        let joinString = (index, insert) => {
+            let localVar = getMap;
+            localVar.splice( index , 0, insert);
+            localVar = localVar.join('');
+            return localVar;
+        };
+
+        let inverseLogic = () => {
+            // FIND INDEX FROM getMap
+            let defineLocation = getMap.findIndex(el => el.includes('¹')) - 1;
+            // FINE VALUE FROM matchSymbol THAT CONTAINS ¹
+            let definePreSymbol  = matchSymbol.findIndex(el => el.includes('¹')) - 2;
+            // CUT -1 FROM THE getMap
+            getMap.splice(defineLocation, 2);
+
+            // console.log(defineLocation);
+            // console.log(definePreSymbol);
+
+            // IF 15⁻¹, IF STATEMENT WILL FIRE AND IF 1+15⁻¹ ELSE STATEMENT WILL FIRE
+            if (definePreSymbol === -1) {
+                // JOIN STRING 1 /
+                joinString(0, "1");
+                joinString(1, "/");
+            } else {
+                // JOIN STRING 1 /
+                joinString(matchIndex[definePreSymbol] + 1, "1");
+                joinString(matchIndex[definePreSymbol] + 2, "/");
             }
+        };
 
-            // displayBottom.value = eval(displayTop.value);
+        // console.log(joinString(1, "5"));
+
+        if (displayTop.value !== '') {
+            let assumeValue;
+
+            if (displayTop.value.includes('⁻¹')) {
+                inverseLogic();
+                assumeValue = getMap.join('');
+                console.log(assumeValue);
+            } else {
+                assumeValue = displayTop.value;
+            }
+            displayBottom.value = math.eval(assumeValue.toString());
+            console.log('top', displayTop.value);
+            console.log('bot', displayBottom.value);
+            console.log(getMap);
+            console.log(matchSymbol);
+            console.log(matchIndex);
+            // console.log(symbolWithoutEval);
+            // console.log(indexWithoutEval);
+        } else {
+            console.log('empty');
         }
-
-        console.log('top', displayTop.value);
-        console.log('bot', displayBottom.value);
         // console.log(allValueArray);
         // console.log(allSymbols);
-        console.log(getMap);
-        console.log(matchSymbol);
-        console.log(matchIndex);
-        console.log(symbolWithoutEval);
-        console.log(indexWithoutEval);
     };
 
     return {
