@@ -10,6 +10,6 @@ $ npm install
 > https://nishargshah.com/calculator
 
 ### Version 2 ( Alpha Release )
-> Ready for pull request
+> Pull Requests are Welcome 
 
 > https://nishargshah.com/calculatorv2
