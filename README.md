@@ -1,6 +1,11 @@
 # Scientific Calculator
 Casio Scientific Calculator using JavaScript
 
+```
+# install dependencies
+$ npm install
+```
+
 ### Version 1
 > https://nishargshah.com/calculator
 
@@ -8,8 +13,3 @@ Casio Scientific Calculator using JavaScript
 > Ready for pull request
 
 > https://nishargshah.com/calculatorv2
-
-```
-# install dependencies
-$ npm install
-```
