@@ -1,15 +1,24 @@
 # Scientific Calculator
 Casio Scientific Calculator using JavaScript
 
+```
+# install dependencies
+$ npm install
+
+# build assets
+$ gulp
+
+# serve
+$ npm start
+
+# watch scss change
+$ npm run node-sass
+```
+
 ### Version 1
 > https://nishargshah.com/calculator
 
 ### Version 2 ( Alpha Release )
-> Ready for pull request
+> Pull Requests are Welcome 
 
 > https://nishargshah.com/calculatorv2
-
-```
-# install dependencies
-$ npm install
-```
